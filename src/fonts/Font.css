@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "UnPilgi";
+  font-style: normal;
+  font-weight: normal;
+  src: url("./UnPilgi.woff") format("woff");
+}
+
+@font-face {
+  font-family: "NanumGangBuJangNimCe";
+  src: url("./Nanum_GangBuJangNimCe.ttf");
+}

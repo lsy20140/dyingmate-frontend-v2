@@ -1,0 +1,181 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 16px;
+	font: inherit;
+	vertical-align: middle;
+  list-style: none;
+  line-height: 150%;
+
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+  color: #535353;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+p{
+  white-space: pre-wrap;
+
+}
+
+::placeholder{
+  font-family: Pretendard;
+}
+
+
+body {
+  width: 100vw;
+  margin: 0;
+  font-family: 'Pretendard';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  
+  /* color variable */
+  --main-color: #FD835F;
+  --main-color-2:#39375C;
+  --font-gray-1: #9E9E9E;
+  --font-gray-2: #7E8489;
+  --font-gray-3: #535353;
+
+}
+
+input {
+  border: none;
+  font-family: Pretendard;
+}
+
+textarea {
+  font-family: Pretendard;
+}
+
+input:focus {
+  outline: none;
+}
+
+input, button {
+  font-size: 16px;
+  font-family: 'Pretendard';
+
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover{
+  filter: brightness(1.1);
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+/* TRACK */
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.23);
+}
+
+/* HANDLE */
+::-webkit-scrollbar-thumb {
+  background: white;
+  height: 10%;
+}
+
+/* login header */
+.header {
+  color: #629556;
+  font-size: 3rem;
+}
+
+
+/* ANIMATIONS */
+
+@keyframes fadeInDown {
+  0% {
+    transform: none;
+  }
+
+  100% {
+    transform: translateX(-50%);
+    
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    animation-duration: 3s;
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slideDown {
+  0% { 
+    transform: scale(1, 0);
+  }
+
+  100% {
+    transform: scale(1,1);
+  }
+}

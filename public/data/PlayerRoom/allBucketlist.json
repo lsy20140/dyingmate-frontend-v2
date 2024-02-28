@@ -1,0 +1,38 @@
+{
+  "status": "OK",
+  "message": "성공",
+  "data": {
+      "fileResponseList": [
+          {
+              "bucketlistId": 1,
+              "content": "content111111",
+              "isComplete": "true",
+              "memoX": 333.22233,
+              "memoY": 11222.2222,
+              "photo": "00.jpeg"
+          },
+          {
+              "bucketlistId": 2,
+              "content": "content2222",
+              "isComplete": "false",
+              "memoX": 444.22233,
+              "memoY": 555.2222,
+              "photo": null
+          }
+      ],
+      "titleResponseList": [
+          {
+              "bucketlistId": 3,
+              "title": "dfadfadfadfafdaf",
+              "memoX": 11.2222,
+              "memoY": 494.22223
+          },
+          {
+              "bucketlistId": 4,
+              "title": "aa",
+              "memoX": 600.2222,
+              "memoY": 120.22223
+          }
+      ]
+  }
+}

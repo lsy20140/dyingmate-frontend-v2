@@ -1,0 +1,65 @@
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+}
+
+.overlay--disable {
+  pointer-events: none;
+}
+
+.splash {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+}
+
+.title {
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+  color: #629556;
+  font-size: 4rem;
+  transform: translateY(-50%);
+  position: absolute;
+  top: 20rem;
+  animation: fadeInDown 1.5s ease;
+  transition: all 2s ease-in-out;
+}
+
+
+.splash--disappear .title {
+  top: 2rem;
+  transform: scale(0.25);
+  transform-origin: center top;
+}
+
+.start {
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  /* transition: 0.42s ease-in-out; */
+  animation: fadeIn 2.4s ease-in-out 2s forwards;
+  opacity: 0;
+  text-shadow: 0 4px 4px #00000025;
+
+}
+
+.start:hover {
+  transform: scale(1.05);
+  transition: 0.3s ease-out;
+  font-weight: bold;
+}
+
+.splash--disappear .start {
+  animation: fadeOut 1s ease-in-out forwards;
+} 

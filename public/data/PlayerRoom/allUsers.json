@@ -1,0 +1,33 @@
+{
+  "status": "OK",
+  "message": "성공",
+  "data": {
+      "users": [
+          {
+              "email": "aaa",
+              "name": "aaaName",
+              "photo": 0
+          },
+          {
+              "email": "ccc",
+              "name": "cccName",
+              "photo": 1
+          },
+          {
+              "email": "userId1",
+              "name": "userId1Name",
+              "photo": 0
+          },
+          {
+              "email": "userId2",
+              "name": "userId2Name",
+              "photo": 1
+          },
+          {
+            "email": "lsy20140",
+            "name": "lsy20140Name",
+            "photo": 1
+          }
+      ]
+  }
+}

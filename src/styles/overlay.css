@@ -1,0 +1,94 @@
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  font-family: Pretendard;
+}
+
+.overlay--disable {
+  pointer-events: none;
+}
+
+.loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: black;
+  transition: opacity 2s ease-in-out;
+}
+
+.loader--disappear {
+  opacity: 0;
+}
+
+.intro {
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  align-items: center;
+  gap: 5rem;
+
+}
+
+
+.intro--disappear .title {
+  top: 2rem;
+  transform: scale(0.25);
+  transform-origin: center top;
+}
+
+.intro__icon{
+  width: 3rem;
+  height: 3rem;
+}
+
+
+.intro__scroll {
+  width: 100%;
+  text-align: center;
+  opacity: 0;
+  position: absolute;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8rem;
+  gap: 1.5rem;
+}
+
+
+.intro--disappear .intro__scroll {
+  animation: fadeIn 1s ease-in-out 1.5s forwards;
+}
+
+.overlay--scrolled .intro__scroll {
+  animation: fadeOut 1s ease-in-out forwards;
+}
+
+.outro {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 4s ease-in-out;
+}
+
+.outro--appear {
+  opacity: 1;
+}
+
+.outro__text {
+  font-family: "Inter", sans-serif;
+  font-size: 1.5rem;
+  color: white;
+}
