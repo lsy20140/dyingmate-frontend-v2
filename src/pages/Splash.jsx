@@ -1,5 +1,6 @@
 import React from 'react'
-import {ReactComponent as TitleSrc} from '../assets/img/title.svg'
+import {ReactComponent as TitleSrc} from 'assets/img/title.svg'
+import splashBg from 'assets/img/splash.webp'
 import styled from 'styled-components'
 import LoginSignup from './LoginSignup'
 
@@ -27,7 +28,7 @@ export default function Splash() {
 const SplashContainer = styled.div`
   width: 100%;
   height: 100%;
-  background-image: url(${`/static/media/splashBg.png`});
+  background-image: url(${splashBg});
   background-size: cover;
   display: flex;
   justify-content: center;

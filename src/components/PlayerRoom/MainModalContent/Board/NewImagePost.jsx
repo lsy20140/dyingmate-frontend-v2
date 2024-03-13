@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import {ReactComponent as Pin} from '../../../../assets/img/PlayerRoom/pin.svg'
-import PostImageSrc from '../../../../assets/img/PlayerRoom/post_image.png'
+import {ReactComponent as Pin} from 'assets/img/PlayerRoom/pin.svg'
+import PostImageSrc from 'assets/img/PlayerRoom/post_img.webp'
 
 export default function NewImagePost({handleOnClick}) {
   return (

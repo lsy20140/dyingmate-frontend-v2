@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {ReactComponent as MainIcon} from '../../../../assets/icons/PlayerRoom/Diary/main_icon.svg'
-import { useDiaryContext } from '../../../../contexts/DiaryContext';
-import GraveStoneSrc from '../../../../assets/img/PlayerRoom/gravestone.png'
+import {ReactComponent as MainIcon} from 'assets/icons/PlayerRoom/Diary/main_icon.svg'
+import { useDiaryContext } from 'contexts/DiaryContext';
+import GraveStoneSrc from 'assets/img/PlayerRoom/gravestone.webp'
 import axios from 'axios'
-import { useAuthContext } from '../../../../contexts/AuthContext';
-import { editSuccess } from '../../../ui/ToastMessage';
+import { useAuthContext } from 'contexts/AuthContext';
+import { editSuccess } from 'components/ui/ToastMessage';
 
 export default function StepTwo({epitaph}) {
 

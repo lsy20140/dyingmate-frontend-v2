@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { Profile_1, Profile_2, Profile_3 } from 'assets/img'
 
 export default function UserProfile({photoNum}) {
   const [profile, setProfile] = useState()
@@ -7,13 +8,13 @@ export default function UserProfile({photoNum}) {
   useEffect(() => {
     switch (photoNum) {
       case 0:
-        setProfile('/static/media/profile_1.png')
+        setProfile(Profile_1)
         break;
       case 1:
-        setProfile('/static/media/profile_2.png');
+        setProfile(Profile_2);
         break;
       case 2:
-        setProfile('/static/media/profile_3.png');
+        setProfile(Profile_3);
         break;
     }
   },[])

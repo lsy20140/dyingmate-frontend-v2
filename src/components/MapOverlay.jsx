@@ -1,16 +1,11 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { ReactComponent as CloseModal } from '../assets/icons/close_modal.svg'
-import MapItem from './Map/MapItem'
-import Map1 from '../assets/img/Map/map_1.png'
-import Map2 from '../assets/img/Map/map_2.png'
-import Map3 from '../assets/img/Map/map_3.png'
-import Map4 from '../assets/img/Map/map_4.png'
-import Map5 from '../assets/img/Map/map_5.png'
-
-import { useStageContext } from '../contexts/StageContext'
 import axios from 'axios'
-import { useAuthContext } from '../contexts/AuthContext'
+import { ReactComponent as CloseModal } from 'assets/icons/close_modal.svg'
+import MapItem from './Map/MapItem'
+import { Map_1, Map_2, Map_3, Map_4, Map_5 } from 'assets/img'
+import { useStageContext } from 'contexts/StageContext'
+import { useAuthContext } from 'contexts/AuthContext'
 
 export default function MapOverlay({showMap, setShowMap}) {
   const {stage, setStage} = useStageContext()
@@ -18,11 +13,11 @@ export default function MapOverlay({showMap, setShowMap}) {
 
   // stageImg 수정 필요
   const StageInfo = [
-    {id: 0, isClear: stage && stage.stage1, stageTitle: '주인 할머니의 방', stageImg: Map1, path: '/gmroom'},
-    {id: 1,  isClear: stage && stage.stage2, stageTitle: '첫 번째 메이트의 방', stageImg: Map2, path: '/manroom'},
-    {id: 2,  isClear: stage && stage.stage3, stageTitle: '두 번째 메이트의 방', stageImg: Map3, path: '/womanroom'},
-    {id: 3,  isClear: stage && stage.stage4, stageTitle: '나의 방', stageImg: Map4, path: '/playerroom'},
-    {id: 4,  isClear: stage && stage.stage5, stageTitle: '마지막 이야기', stageImg: Map5, path: '/final'},
+    {id: 0, isClear: stage && stage.stage1, stageTitle: '주인 할머니의 방', stageImg: Map_1, path: '/gmroom'},
+    {id: 1,  isClear: stage && stage.stage2, stageTitle: '첫 번째 메이트의 방', stageImg: Map_2, path: '/manroom'},
+    {id: 2,  isClear: stage && stage.stage3, stageTitle: '두 번째 메이트의 방', stageImg: Map_3, path: '/womanroom'},
+    {id: 3,  isClear: stage && stage.stage4, stageTitle: '나의 방', stageImg: Map_4, path: '/playerroom'},
+    {id: 4,  isClear: stage && stage.stage5, stageTitle: '마지막 이야기', stageImg: Map_5, path: '/final'},
   ]
 
   useEffect(() => {

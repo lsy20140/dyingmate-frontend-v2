@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import {ReactComponent as MainIcon} from '../../../assets/icons/PlayerRoom/Will/main_icon.svg'
-import willPaper from '../../../assets/img/PlayerRoom/will_paper.png'
-import StyledButton from '../../ui/StyledButton';
+import {ReactComponent as MainIcon} from 'assets/icons/PlayerRoom/Will/main_icon.svg'
+import willPaper from 'assets/img/PlayerRoom/will_paper.webp'
+import StyledButton from 'components/ui/StyledButton';
 import axios from 'axios'  
-import { useAuthContext } from '../../../contexts/AuthContext';
+import { useAuthContext } from 'contexts/AuthContext';
 import {ToastContainer} from 'react-toastify'
-import { editSuccess, nullWarning, saveSuccess } from '../../ui/ToastMessage';
+import { editSuccess, nullWarning, saveSuccess } from 'components/ui/ToastMessage';
 
 
 export default function Will() {

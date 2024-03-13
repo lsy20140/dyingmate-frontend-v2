@@ -2,7 +2,6 @@ import React from 'react'
 import {ReactComponent as Pin} from '../../../../assets/img/PlayerRoom/pin.svg'
 import styled from 'styled-components'
 import Draggable from 'react-draggable';
-import TestImage from '../../../../assets/img/splashBg.png'
 import axios from 'axios'
 import { useAuthContext } from '../../../../contexts/AuthContext';
 

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import {ReactComponent as MainIcon} from '../../../../assets/icons/PlayerRoom/Diary/main_icon.svg'
+import {ReactComponent as MainIcon} from 'assets/icons/PlayerRoom/Diary/main_icon.svg'
 import axios from 'axios'  
-import { useAuthContext } from '../../../../contexts/AuthContext'
-import { useDiaryContext } from '../../../../contexts/DiaryContext'
-import { saveSuccess } from '../../../ui/ToastMessage'
-import GraveStoneSrc from '../../../../assets/img/PlayerRoom/gravestone.png'
-import UploadFrameSrc from '../../../../assets/img/PlayerRoom/upload_frame.png'
+import { useAuthContext } from 'contexts/AuthContext'
+import { useDiaryContext } from 'contexts/DiaryContext'
+import { saveSuccess } from 'components/ui/ToastMessage'
+import GraveStoneSrc from 'assets/img/PlayerRoom/gravestone.webp'
+import UploadFrameSrc from 'assets/img/PlayerRoom/upload_frame.webp'
 
 export default function StepFinal() {
   const formData = new FormData()
