@@ -1,39 +1,12 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import axios from 'axios'
 import { ReactComponent as CloseModal } from 'assets/icons/close_modal.svg'
 import MapItem from './Map/MapItem'
-import { Map_1, Map_2, Map_3, Map_4, Map_5 } from 'assets/img'
-import { useStageContext } from 'contexts/StageContext'
-import { useAuthContext } from 'contexts/AuthContext'
+import { STAGE_INFO } from 'constants/stage'
+import { useGetStage } from 'hooks/useStage'
 
 export default function MapOverlay({showMap, setShowMap}) {
-  const {stage, setStage} = useStageContext()
-  const {token} = useAuthContext()
-
-  // stageImg 수정 필요
-  const StageInfo = [
-    {id: 0, isClear: stage && stage.stage1, stageTitle: '주인 할머니의 방', stageImg: Map_1, path: '/gmroom'},
-    {id: 1,  isClear: stage && stage.stage2, stageTitle: '첫 번째 메이트의 방', stageImg: Map_2, path: '/manroom'},
-    {id: 2,  isClear: stage && stage.stage3, stageTitle: '두 번째 메이트의 방', stageImg: Map_3, path: '/womanroom'},
-    {id: 3,  isClear: stage && stage.stage4, stageTitle: '나의 방', stageImg: Map_4, path: '/playerroom'},
-    {id: 4,  isClear: stage && stage.stage5, stageTitle: '마지막 이야기', stageImg: Map_5, path: '/final'},
-  ]
-
-  useEffect(() => {
-    axios.get(`https://dying-mate-server.link/map`, {
-      headers: {Authorization: 'Bearer ' + token},
-    }, )
-    .then(function (res) {
-      if(res) {
-        setStage(() => ({...res.data.data}))
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  },[])
-
+  const {data: stage} = useGetStage()
 
   return (
     <>
@@ -45,8 +18,8 @@ export default function MapOverlay({showMap, setShowMap}) {
           <Main>
             <MapItemWrapper>
               <Line/>
-              {StageInfo.map(({id, isClear, stageTitle, stageImg, path}) => (
-                <MapItem key={id} isClear={isClear} stageTitle={stageTitle} stageImg={stageImg} path={path}/>
+              {STAGE_INFO.map(({id, stageTitle, stageImg, path}) => (
+                <MapItem key={id} isClear={Object.values(stage.data)[id]} stageTitle={stageTitle} stageImg={stageImg} path={path}/>
               ))}              
             </MapItemWrapper>
           </Main>
