@@ -8,8 +8,19 @@ const userApi = {
   },
 
   // 사용자 이름 저장
-  createUsername: async (username) => {
-    const {data} =  await authInstance.post('/onboarding/username/post', {username: username})
+  saveUsername: async (username) => {
+    const {data} = await authInstance.post(`/user/${username}/save`, {})
+    return data
+  },
+
+  // 로그인
+  userLogin : async (email, pwd) => {
+    const {data} = await defaultInstance.post('/user/login',
+      {
+        email: email,
+        pwd: pwd
+      }
+    )
     return data
   },
 
@@ -22,7 +33,8 @@ const userApi = {
       }
     )
     return data
-  }
+  },
+
 }
 
 export default userApi

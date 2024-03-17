@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import LoginForm from '../components/LoginSignup/LoginForm'
-import SignUpForm from '../components/LoginSignup/SignUpForm'
 import styled from 'styled-components'
+import LoginForm from 'components/LoginSignup/LoginForm'
+import SignUpForm from 'components/LoginSignup/SignUpForm'
 
 export default function LoginSignup() {
   const [curIdx, setCurIdx] = useState(0)
