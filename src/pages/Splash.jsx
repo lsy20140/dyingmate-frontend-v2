@@ -1,7 +1,7 @@
 import React from 'react'
-import {ReactComponent as TitleSrc} from 'assets/img/title.svg'
-import splashBg from 'assets/img/splash.webp'
 import styled from 'styled-components'
+import {ReactComponent as Logo} from 'assets/img/logo.svg'
+import splashBg from 'assets/img/splash.webp'
 import LoginSignup from './LoginSignup'
 
 export default function Splash() {
@@ -13,7 +13,7 @@ export default function Splash() {
       <SplashContainer>
         <ContentBox>
           <Description>
-            <TitleSrc/>
+            <Logo/>
             <p>다잉메이트에 방문하신 걸 환영합니다!<br/>
               웰다잉하우스에서 다잉메이트들을 만나<br/>
               당신만의 특별한 웰다잉을 경험하고 설계해보세요.</p>
@@ -26,12 +26,17 @@ export default function Splash() {
 }
 
 const SplashContainer = styled.div`
-  width: 100%;
+  width: fit-content;
   height: 100%;
   background-image: url(${splashBg});
   background-size: cover;
   display: flex;
   justify-content: center;
+  
+  @media all and (min-width:768px) {
+    width: 100%;
+  }
+
 `
 const ContentBox = styled.div`  
   display: flex;
@@ -52,6 +57,7 @@ const Description = styled.div`
   }
   p{
     transform: translateX(-50%);
+    will-change: transform;
     opacity: 0;
     color: white;
     font-size: 1.25rem;

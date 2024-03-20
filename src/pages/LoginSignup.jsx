@@ -6,10 +6,7 @@ import SignUpForm from 'components/LoginSignup/SignUpForm'
 export default function LoginSignup() {
   const [curIdx, setCurIdx] = useState(0)
 
-  const tabArr = [
-    { tabName: '로그인'},
-    { tabName: '회원가입'},
-  ]
+  const tabArr = ['로그인', '회원가입']
 
   const handleSelectTab = (idx) => {
     setCurIdx(idx);
@@ -21,7 +18,7 @@ export default function LoginSignup() {
         <TabWrapper>
           {tabArr.map((tab, idx) => (
             <li key={idx} className={`tabMenu ${idx === curIdx ? "selected" : ""}` }
-              onClick={() => handleSelectTab(idx)}>{tab.tabName}</li>
+              onClick={() => handleSelectTab(idx)}>{tab}</li>
           ))}
         </TabWrapper>
         {curIdx === 0 ? (

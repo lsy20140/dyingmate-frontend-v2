@@ -3,9 +3,10 @@ import {useNavigate} from 'react-router-dom'
 import styled from 'styled-components';
 import {useForm, Controller} from 'react-hook-form'
 import userApi from 'api/auth/user';
-import { ReactComponent as HidePwdIcon } from 'assets/icons/Splash/hide_pwd_icon.svg'
+import { HidePwdIcon } from 'assets/icons';
 import {IoMdAlert} from 'react-icons/io'
 import SocialLogin from './SocialLogin';
+import { FORM_RESPONSES } from 'constants/formMessages';
 
 export default function LoginForm() {
   const navigate = useNavigate()
@@ -20,7 +21,6 @@ export default function LoginForm() {
   const onSubmit = async (data) => {
     const {email, pwd} = data
     const res = await userApi.userLogin(email, pwd)
-    console.log(res)
 
     if(res.status !== 'OK'){
       setIsValid(false)
@@ -36,7 +36,7 @@ export default function LoginForm() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <ValidText isError={!isValid}>
           <IoMdAlert/>
-          <p>아이디/비밀번호가 틀렸습니다. 다시 입력하세요.</p>
+          <p>{FORM_RESPONSES.LOGIN_FAIL}</p>
         </ValidText>
         <Controller
           control={control}
@@ -52,7 +52,7 @@ export default function LoginForm() {
             </>            
           )}
         />
-        <PasswordInput>
+        <PasswordInputWrapper>
           <Controller 
             control={control}
             name="pwd"
@@ -67,7 +67,7 @@ export default function LoginForm() {
             )}
           />
           <HidePwdIcon onClick={handlePwdHide}/>
-        </PasswordInput>
+        </PasswordInputWrapper>
         <LoginButton>로그인</LoginButton>
       </form>
       <SocialLogin />
@@ -75,8 +75,7 @@ export default function LoginForm() {
   )
 }
 
-// styled-components
-const PasswordInput = styled.div`
+const PasswordInputWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
@@ -84,7 +83,6 @@ const PasswordInput = styled.div`
   cursor: pointer;
 
   svg {
-    height: 100%;
     width: 1rem;
     position: absolute;
     right: 1rem;

@@ -2,11 +2,12 @@ import React, { useState,  } from 'react'
 import {useNavigate} from 'react-router-dom'
 import {useForm, Controller, useWatch} from 'react-hook-form'
 import styled from 'styled-components';
-import {ReactComponent as HidePwdIcon} from 'assets/icons/Splash/hide_pwd_icon.svg'
+import { HidePwdIcon } from 'assets/icons';
 import {GoCheckCircleFill} from 'react-icons/go'
 import {IoMdAlert} from 'react-icons/io'
 import SocialLogin from './SocialLogin';
 import userApi from 'api/auth/user'
+import { FORM_RESPONSES } from 'constants/formMessages';
 
 export default function SignUpForm() {
   const navigate = useNavigate()
@@ -25,10 +26,12 @@ export default function SignUpForm() {
   }
 
   const handleCheckEmail = async (email) => {
-    userApi.checkEmail(email).then((res) => {
-      setEmailCheckText(true)
-      setIsEmailValid(!res)
-    })
+    if(email) {
+      userApi.checkEmail(email).then((res) => {
+        setEmailCheckText(true)
+        setIsEmailValid(!res)
+      })
+    }
   }
 
   const checkPwd = useWatch({
@@ -68,16 +71,16 @@ export default function SignUpForm() {
         {isEmailValid ?
           <>
             <GoCheckCircleFill />
-            <p>사용 가능한 아이디입니다.</p>
+            <p>{FORM_RESPONSES.AVAILABLE_ID}</p>
           </>
           :
           <>
             <IoMdAlert />
-            <p>중복된 아이디 입니다! 다시 한번 입력해주세요.</p>
+            <p>{FORM_RESPONSES.UNAVAILABLE_ID}</p>
           </>
         }
       </ValidText>
-      <PasswordInput>
+      <PasswordInputWrapper>
         <Controller
           control={control}
           name="pwd"
@@ -94,13 +97,13 @@ export default function SignUpForm() {
             </>
           )}
         />
-      </PasswordInput>
+      </PasswordInputWrapper>
       <Controller
         control={control}
         name="pwd_check"
         render={({field}) => (
           <>
-            <PasswordInput>
+            <PasswordInputWrapper>
             <FormInput 
                 type={showPwd[1] ? "text" : "password"}
                 value={field.value}
@@ -109,17 +112,17 @@ export default function SignUpForm() {
                 required
               />
               <HidePwdIcon onClick={() => handlePwdHide(1)}/>
-            </PasswordInput>
+            </PasswordInputWrapper>
               <ValidText>
                 {field.value && checkPwd ? 
                   <>
                     <GoCheckCircleFill />
-                    <p>비밀번호가 일치합니다. </p>
+                    <p>{FORM_RESPONSES.PWD_CHECK_SUCCESS}</p>
                   </>  
                   :
                   <>
                     <IoMdAlert/>
-                    <p>비밀번호가 일치하지 않습니다! 다시 입력해주세요.</p>
+                    <p>{FORM_RESPONSES.PWD_CHECK_FAIL}</p>
                   </>
                 }
               </ValidText>
@@ -134,7 +137,7 @@ export default function SignUpForm() {
 }
 
 // styled-components
-const PasswordInput = styled.div`
+const PasswordInputWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
@@ -143,7 +146,6 @@ const PasswordInput = styled.div`
   cursor: pointer;
 
   svg {
-    height: 100%;
     width: 1rem;
     position: absolute;
     right: 1rem;
