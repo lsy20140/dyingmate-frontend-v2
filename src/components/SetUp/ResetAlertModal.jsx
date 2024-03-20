@@ -1,20 +1,28 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
 import {IoMdAlert} from 'react-icons/io'
-import {ToastContainer} from 'react-toastify'
-import { resetSuccess } from '../ui/ToastMessage'
+import userApi from 'api/auth/user'
+import { useToast } from 'hooks/useToast'
+import { TOAST_MESSAGES } from 'constants/toastMessages'
 
-export default function ResetAlertModal({setOpen}) {
+export default function ResetAlertModal({setAlertOpen}) {
   const modalRef = useRef()
 
   const handleOutsideClick = (e) => {
     if(modalRef.current === e.target) {
-      setOpen(false)
+      setAlertOpen(false)
     }
   }
 
-  const handleReset = () => {
+  const handleReset = async () => {
+    const data = await userApi.resetData()
     
+    if(data.message === "성공"){
+      useToast('success', TOAST_MESSAGES.RESET_SUCCESS)
+      setAlertOpen(false)
+    }else{
+      useToast('error', TOAST_MESSAGES.RESET_FAIL)
+    }
   }
 
   
@@ -31,7 +39,7 @@ export default function ResetAlertModal({setOpen}) {
             </ContentWrapper>
           </Container>
       </Overlay>
-      <ToastContainer />
+      
     </>
   )
 }
