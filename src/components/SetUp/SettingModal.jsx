@@ -1,25 +1,33 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {useNavigate} from 'react-router-dom'
 import styled from 'styled-components'
-import { SettingBtnIcon } from 'assets/icons'
+import { SettingIcon } from 'assets/icons'
 import {IoIosClose} from 'react-icons/io'
-import {LuPencilLine, LuLogIn, LuRotateCcw} from 'react-icons/lu'
+import { LuRotateCcw} from 'react-icons/lu'
 import IconStyledButton from '../ui/IconStyledButton'
 import UserProfile from '../ui/UserProfile'
-import { useGetUser } from 'hooks/useAuth'
+import { useEditUsername, useGetUser } from 'hooks/useAuth'
+import ResetAlertModal from './ResetAlertModal'
 
 export default function SettingModal({showSetup, setShowSetup}) {
-  const {data, isSuccess} = useGetUser()
-  const {name, photoNum} = data.data
-  const [input, setInput] = useState(name && name)
+  const {data} = useGetUser()
+  const {mutate: editUsername} = useEditUsername()
+  const [input, setInput] = useState('')
+  const navigate = useNavigate()
+  const [alertOpen, setAlertOpen] = useState(false)
 
-  // const handleChangeName = () => {
+  const handleEditUsername = () => {
+    editUsername(input)
+  }
 
-  // }
+  const handleLogout = () => {
+    navigate('/main')
+    localStorage.removeItem('login-token')
+  }
 
-  // const handleLogout = () => {
-
-  // }
+  useEffect(() => {
+    setInput(data && data.name.toString())
+  },[data, showSetup])
 
   return (
     <>
@@ -28,7 +36,7 @@ export default function SettingModal({showSetup, setShowSetup}) {
         <Container>
           <Header>
             <HeaderTitle>
-              <SettingBtnIcon/>
+              <SettingIcon/>
               <p>환경설정</p>
             </HeaderTitle>
             <IoIosClose onClick={() => setShowSetup(!showSetup)}/>
@@ -36,7 +44,7 @@ export default function SettingModal({showSetup, setShowSetup}) {
           <ContentWrapper>
           <ProfileBox>
               <ProfileWrapper>
-                <UserProfile photoNum={photoNum} />
+                <UserProfile photoNum={data.photoNum} />
               </ProfileWrapper>
               <NameWrapper>
                 <p>닉네임</p>
@@ -44,7 +52,7 @@ export default function SettingModal({showSetup, setShowSetup}) {
                   onChange={(e) => setInput(e.target.value)} 
                   value={input ?? ""} />
               </NameWrapper>
-              <SaveButton isFill={input !== name} onClick={handleChangeName}>저장하기</SaveButton>
+              <SaveButton isFill={input !== data.name} onClick={handleEditUsername}>저장하기</SaveButton>
               <ButtonWrapper>
                 <p onClick={handleLogout}>로그아웃</p>
                 <p>회원탈퇴</p>
@@ -58,12 +66,13 @@ export default function SettingModal({showSetup, setShowSetup}) {
               color={`var(--font-gray-3)`} 
               btnColor={"#F0EAE0"} 
               icon={<LuRotateCcw />} 
-              handleOnClick={() => setOpen(true)}
+              handleOnClick={() => setAlertOpen(true)}
             />
           </ContentWrapper>
         </Container>
       </Overlay>
     )}
+    {alertOpen && <ResetAlertModal setAlertOpen={setAlertOpen}/>}
     </>
 
   )
@@ -80,7 +89,7 @@ const Overlay = styled.div`
 
 const Container = styled.div`
   width: 32rem;
-  height: 44rem;
+  height: fit-content;
   background: linear-gradient(237deg, rgba(0, 0, 0, 0.2) -23.03%, rgba(0, 0, 0, 0.05) 119.63%);
   outline: 2px solid white;
   border-radius: 2.5rem;  
@@ -122,7 +131,7 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   padding: 3rem 5.2rem 7rem 5.2rem;
   box-sizing: border-box;
-  gap: 3.75rem;
+  gap: 1rem;
 
 `
 
@@ -142,10 +151,6 @@ const ProfileBox = styled.div`
     font-weight: 700;
     color: var(--font-gray-3);
   }
-  
-  button{
-    margin-top: 0.5rem;
-  }
 `
 
 const ProfileWrapper = styled.div`
@@ -153,9 +158,61 @@ const ProfileWrapper = styled.div`
   height: 6rem;
 `
 
-const ButtonWrapper = styled.div`
+const NameWrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  align-items: center;
+  gap: 0.2rem;
+
+  p{
+    color: var(--font-gray-3);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+`
+
+const NameInput = styled.input`
+  width: 100%;
+  padding: 0.69rem 1.25rem;
+  color: var(--font-gray-3);
+  background-color: #f3f3f3;
+  outline: 0.5px solid #999;
+  box-sizing: border-box;
+  border-radius: 0.75rem;
+`
+
+const ButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 2.62rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 150%;
+  margin-top: 0.25rem;
+
+  p{
+    cursor: pointer;
+    text-decoration-line: underline;
+  }
+
+  p:first-child{
+    color: #EA0000;
+    text-decoration-color: #EA0000;
+  }
+  p:last-child{
+    color: var(--font-gray-3);
+    text-decoration-color: var(--font-gray-3);
+  }
+`
+
+const SaveButton = styled.button`
+  width: 100%;
+  background-color: ${props => props.isFill ? 'var(--main-color-2)' : 'var(--font-gray-1)'};
+  color: white;
+  font-weight: 700;
+  text-align: center;
+  padding: 0.75rem 0;
+  border-radius: 0.75rem;
+  border: none;
 `
