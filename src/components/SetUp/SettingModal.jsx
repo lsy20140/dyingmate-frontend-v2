@@ -1,23 +1,25 @@
 import React, { useEffect } from 'react'
+import {useNavigate} from 'react-router-dom'
 import styled from 'styled-components'
-import {ReactComponent as MainIcon} from '../../assets/icons/SetUp/main_icon.svg'
+import { SettingBtnIcon } from 'assets/icons'
 import {IoIosClose} from 'react-icons/io'
 import {LuPencilLine, LuLogIn, LuRotateCcw} from 'react-icons/lu'
 import IconStyledButton from '../ui/IconStyledButton'
 import UserProfile from '../ui/UserProfile'
-import { useAuthContext } from '../../contexts/AuthContext'
+import { useGetUser } from 'hooks/useAuth'
 
 export default function SettingModal({showSetup, setShowSetup}) {
-  const {user} = useAuthContext();
+  const {data, isSuccess} = useGetUser()
+  const {name, photoNum} = data.data
+  const [input, setInput] = useState(name && name)
 
-  const handleOnClick = (e) => {
-    // 1. 에러 방지 팝업 보여주기
-    // 2. 로그아웃, 초기화하기
-  }
+  // const handleChangeName = () => {
 
-  useEffect(() => {
-    console.log("user", user)
-  },[])
+  // }
+
+  // const handleLogout = () => {
+
+  // }
 
   return (
     <>
@@ -26,23 +28,38 @@ export default function SettingModal({showSetup, setShowSetup}) {
         <Container>
           <Header>
             <HeaderTitle>
-              <MainIcon/>
+              <SettingBtnIcon/>
               <p>환경설정</p>
             </HeaderTitle>
             <IoIosClose onClick={() => setShowSetup(!showSetup)}/>
           </Header>
           <ContentWrapper>
-            <ProfileBox>
+          <ProfileBox>
               <ProfileWrapper>
-                <UserProfile photoNum={user && user.photoNum} />
+                <UserProfile photoNum={photoNum} />
               </ProfileWrapper>
-              <p>워리어즈 님,</p>
-              <IconStyledButton width={'100%'} text={'닉네임 수정하기'} fontWeight={'700'} color={'white'} btnColor={`var(--main-color-2)`} icon={<LuPencilLine fontSize='1.5rem'/>} handleOnClick={handleOnClick} />
+              <NameWrapper>
+                <p>닉네임</p>
+                <NameInput 
+                  onChange={(e) => setInput(e.target.value)} 
+                  value={input ?? ""} />
+              </NameWrapper>
+              <SaveButton isFill={input !== name} onClick={handleChangeName}>저장하기</SaveButton>
+              <ButtonWrapper>
+                <p onClick={handleLogout}>로그아웃</p>
+                <p>회원탈퇴</p>
+              </ButtonWrapper>
             </ProfileBox>
-            <ButtonWrapper>
-              <IconStyledButton width={'100%'} text={'로그아웃'} fontWeight={'500'} color={'white'} btnColor={`var(--main-color)`} icon={<LuLogIn fontSize='1.5rem'/>} handleOnClick={handleOnClick} />
-              <IconStyledButton width={'100%'} text={'초기화하기'} fontWeight={'500'} color={`var(--font-gray-3)`} btnColor={'#F0EAE0'} icon={<LuRotateCcw fontSize='1.5rem'/>} handleOnClick={handleOnClick} />
-            </ButtonWrapper>
+            <IconStyledButton 
+              width={"100%"} 
+              text={"초기화하기"} 
+              fontSize={'1.25rem'} 
+              fontWeight={500} 
+              color={`var(--font-gray-3)`} 
+              btnColor={"#F0EAE0"} 
+              icon={<LuRotateCcw />} 
+              handleOnClick={() => setOpen(true)}
+            />
           </ContentWrapper>
         </Container>
       </Overlay>
