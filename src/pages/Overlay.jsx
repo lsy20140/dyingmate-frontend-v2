@@ -1,12 +1,12 @@
 import { useProgress } from "@react-three/drei";
-import { usePlay } from "../contexts/Play";
+import styled from "styled-components";
 import '../styles/overlay.css'
 import { useEffect } from "react";
-import styled from "styled-components";
+import { usePlay } from "contexts/Play";
 
 export const Overlay = () => {
   const { progress } = useProgress();
-  const { play, end, setPlay, hasScroll } = usePlay();
+  const { play, setPlay, hasScroll } = usePlay();
 
   useEffect(() => {
     setPlay(true)
@@ -26,13 +26,7 @@ export const Overlay = () => {
             <GuideText>스크롤을 통해 앞뒤로 이동해보세요</GuideText>
           </div>
         </div>
-      )}
-      <div className={`outro ${end ? "outro--appear" : ""}`}>
-        <p className="outro__text">Finish</p>
-        {/* <p className="outro__text">🔁메인으로 돌아가기</p> */}
-      </div>
-
-      
+      )}      
     </div>
   );
 };

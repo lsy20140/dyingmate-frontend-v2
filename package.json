@@ -51,6 +51,7 @@
     ]
   },
   "devDependencies": {
-    "@svgr/cli": "^8.1.0"
+    "@svgr/cli": "^8.1.0",
+    "gltfjsx": "^6.2.16"
   }
 }

@@ -1,16 +1,16 @@
 import React, {useState} from 'react'
-import MainExperience from '../components/MainExperience';
-import { usePlay } from '../contexts/Play';
 import { Canvas } from "@react-three/fiber";
 import { ScrollControls, useProgress } from "@react-three/drei";
-import MapOverlay from '../components/MapOverlay';
-import SettingModal from '../components/SetUp/SettingModal';
-import { Overlay } from './Overlay';
-import {ReactComponent as SettingIcon} from '../assets/icons/SetUp/setting_modal.svg'
-import {ReactComponent as MapModalButton} from '../assets/img/map_modal_btn.svg'
 import styled from 'styled-components';
-import EnterRoomDialog from '../components/ui/EnterRoomDialog';
+import { usePlay } from 'contexts/Play';
+import MainExperience from 'components/MainExperience';
+import MapOverlay from 'components/MapOverlay';
+import SettingModal from 'components/SetUp/SettingModal';
+import { Overlay } from './Overlay';
+import { SettingBtnIcon } from 'assets/icons';
+import {ReactComponent as MapModalButton} from 'assets/img/map_modal_btn.svg'
 import OnBoardingLoading from './OnBoardingLoading';
+import EnterRoomDialog from 'components/ui/EnterRoomDialog';
 
 export default function Main() {
   const [showSetup, setShowSetup] = useState(false);
@@ -24,34 +24,39 @@ export default function Main() {
     <audio id="musicplayer" autoPlay>
       <source src="/audio/main.aac" />
     </audio>
+    { progress !== 100 &&
+      <OnBoardingLoading text={"마을로 이동 중..."} />
+    }
     <Canvas>
       {/* <axesHelper args={[1000, 1000, 1000]} /> */}
       <color attach="background" arg={["#f59f9f"]} />
       <ScrollControls
         pages={play && !end ? 36 : 0}
         damping={0.5}
+        maxSpeed={0.3}
       >
         <MainExperience setShowEnterDialog={setShowEnterDialog} />
       </ScrollControls>
     </Canvas>
+
+    {/* 초기 지점에 위치한 경우 하단 메세지 보여주는 overlay */}
     {isFirst && <Overlay/>}
 
-    <MapOverlay showMap={showMap} setShowMap={setShowMap} />
-    <SettingModal showSetup={showSetup} setShowSetup={setShowSetup} />
     {progress === 100 &&
       <>
         <Header onClick={() => setShowSetup(!showSetup)}>
-          <SettingIcon/>
+          <SettingBtnIcon/>
         </Header>
         <MapButtonWrapper>
           <MapModalButton onClick={() => setShowMap(true)}/>
         </MapButtonWrapper> 
       </>
     }
+
+    <MapOverlay showMap={showMap} setShowMap={setShowMap} />
+    <SettingModal showSetup={showSetup} setShowSetup={setShowSetup} />
+
     {showEnterDialog !== 0 && <EnterRoomDialog stageNum={showEnterDialog}/>}
-    { progress !== 100 &&
-      <OnBoardingLoading text={"마을로 이동 중..."} />
-    }
   </>
   );
 }
