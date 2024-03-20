@@ -35,6 +35,11 @@ const userApi = {
     return data
   },
 
+  // 사용자 정보(username, photoNum) 받아오기
+  getUserInfo : async () => {
+    const {data} = await authInstance.get('/user')
+    return data
+  }
 }
 
 export default userApi
