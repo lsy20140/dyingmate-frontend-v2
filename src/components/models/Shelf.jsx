@@ -6,7 +6,7 @@ Command: npx gltfjsx@6.2.13 5_8_Shelf.gltf
 import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 
-export function Shelf(props) {
+export default function Shelf(props) {
   const { nodes, materials } = useGLTF('/models/5_8_Shelf.gltf')
   return (
     <group {...props} dispose={null}>

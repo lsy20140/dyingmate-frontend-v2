@@ -6,7 +6,7 @@ Command: npx gltfjsx@6.2.13 5_7_Desktop.gltf
 import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 
-export function Desktop(props) {
+export default function Desktop(props) {
   const { nodes, materials } = useGLTF('/models/5_7_Desktop.gltf')
   return (
     <group {...props} dispose={null}>

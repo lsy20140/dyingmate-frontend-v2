@@ -5,7 +5,7 @@ import * as THREE from "three";
 import { usePlay } from 'contexts/Play';
 import { useStageContext } from 'contexts/StageContext';
 import { MainBackground } from './MainBackground';
-import { Main_Ground } from './models/Outside/MainGround';
+import { OutsideModel } from './models';
 
 // 상수 선언
 const CURVE_AHEAD_CAMERA = 0.1
@@ -162,7 +162,7 @@ export default function MainExperience({setShowEnterDialog}) {
         <PerspectiveCamera position={[0,-1,0]} fov={60} makeDefault />
       </group>
       <group position={[0,-22,0]}>
-        <Main_Ground />
+        <OutsideModel />
       </group>
 
       {/* 경로 확인용 코드(기능에 영향 X) */}

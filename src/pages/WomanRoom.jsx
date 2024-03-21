@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Canvas } from "@react-three/fiber";
-import { Woman_Room } from '../components/models/WomanRoom/WomanRoom';
 import {OrbitControls, useProgress} from '@react-three/drei'
 import { CameraControls } from '../Camera';
 import { useRoomFocus } from '../contexts/RoomFocus';
 import CharMainDialog from '../components/ui/CharMainDialog';
 import { MessageArr } from '../data/woman_script';
-import { Woman } from '../components/models/WomanRoom/Woman';
 import { usePlay } from '../contexts/Play';
 import Loading from './Loading';
+import { WomanModel, WomanRoomModel } from 'components/models';
 
 export default function WomanRoom() {
   const {focus} = useRoomFocus();
@@ -43,8 +42,8 @@ export default function WomanRoom() {
         <directionalLight intensity={1.2} castShadow decay={2} color="#d8b58d" position={[22, 15.344, -5]} target-position={[2, 10, 0]} />
         <CameraControls position={position} target={target} />
         <group rotation-y={-Math.PI} rotation-z={-Math.PI/10} position-y={-1}>
-          <Woman_Room/>
-          <Woman/>
+          <WomanRoomModel/>
+          <WomanModel/>
         </group>
       </Canvas>
       {progress === 100 &&

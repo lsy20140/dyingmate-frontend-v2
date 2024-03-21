@@ -3,21 +3,15 @@ import { Canvas } from "@react-three/fiber";
 import { DirectionalLightHelper } from "three";
 import { useHelper, useProgress } from "@react-three/drei";
 import { CameraControls } from '../Camera';
-import { usePlay } from '../contexts/Play';
-import ModalOverlay from '../components/PlayerRoom/ModalOverlay';
-import FriendListModal from '../components/PlayerRoom/FriendListModal';
-import { Room } from '../components/models/PlayerRoom/Room';
-import ModalButton from '../components/PlayerRoom/FriendList/ModalButton';
-import { Will } from '../components/models/PlayerRoom/Will';
-import { Board } from '../components/models/PlayerRoom/Board';
-import { Phone } from '../components/models/PlayerRoom/Phone';
-import { Diary } from '../components/models/PlayerRoom/Diary';
-import { Shelf } from '../components/models/PlayerRoom/Shelf';
-import { Desktop } from '../components/models/PlayerRoom/Desktop';
+import { usePlay } from 'contexts/Play';
+import ModalOverlay from 'components/PlayerRoom/ModalOverlay';
+import FriendListModal from 'components/PlayerRoom/FriendListModal';
+import ModalButton from 'components/PlayerRoom/FriendList/ModalButton';
+import { PlayerRoomModel, WillModel, BoardModel, PhoneModel, DiaryModel, ShelfModel, DesktopModel } from 'components/models';
 import { getFriendList } from '../apis/api/PlayerRoom/friendList';
 import Loading from './Loading';
 import { isAllDone } from '../apis/api/PlayerRoom/ending';
-import EnterRoomDialog from '../components/ui/EnterRoomDialog';
+import EnterRoomDialog from 'components/ui/EnterRoomDialog';
 
 export default function PlayerRoom() {
   const light1 = useRef()
@@ -130,24 +124,24 @@ export default function PlayerRoom() {
         <directionalLight ref={light2} intensity={5} castShadow decay={2} color="#d8b58d" position={[22, 15.344, -5]} target-position={[2, 10, 0]} />
         <CameraControls position={position} target={target} />
         <group rotation-y={-Math.PI} >
-          <Room/>
+          <PlayerRoomModel/>
           <group onPointerOver={() => setHovered(true)} onPointerOut={() => setHovered(false)} onClick={() => handleClick(1)}>
-            <Will/>
+            <WillModel/>
           </group>
           <group onPointerOver={() => setHovered(true)} onPointerOut={() => setHovered(false)} onClick={() => handleClick(2)}>
-            <Board/>  
+            <BoardModel/>  
           </group>
           <group onPointerOver={() => setHovered(true)} onPointerOut={() => setHovered(false)} onClick={() => handleClick(3)}>
-            <Phone/>
+            <PhoneModel/>
           </group>
           <group onPointerOver={() => setHovered(true)} onPointerOut={() => setHovered(false)} onClick={() => handleClick(4)}>
-            <Diary/>
+            <DiaryModel/>
           </group>
           <group onPointerOver={() => setHovered(true)} onPointerOut={() => setHovered(false)} onClick={() => handleClick(5)}>
-            <Shelf/>
+            <ShelfModel/>
           </group>
           <group onPointerOver={() => setHovered(true)} onPointerOut={() => setHovered(false)} onClick={() => handleClick(6)}>
-            <Desktop/>
+            <DesktopModel/>
           </group>
         </group>
       </Canvas>

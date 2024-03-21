@@ -6,7 +6,7 @@ Command: npx gltfjsx@6.2.13 grandMother.gltf
 import React, { useEffect, useRef } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 
-export function Grandmother(props) {
+export default function Grandmother(props) {
   const group = useRef()
   const { nodes, materials, animations } = useGLTF('/models/grandmother.gltf')
   const { actions } = useAnimations(animations, group)

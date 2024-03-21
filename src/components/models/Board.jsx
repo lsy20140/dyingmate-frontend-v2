@@ -6,7 +6,7 @@ Command: npx gltfjsx@6.2.13 5_3_Board.gltf
 import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 
-export function Board(props) {
+export default function Board(props) {
   const { nodes, materials } = useGLTF('/models/5_3_Board.gltf')
   return (
     <group {...props} dispose={null}>

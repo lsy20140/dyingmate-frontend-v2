@@ -6,7 +6,7 @@ Command: npx gltfjsx@6.2.16 main_ground.gltf
 import React, { useRef } from 'react'
 import { useGLTF, PerspectiveCamera } from '@react-three/drei'
 
-export function Main_Ground(props) {
+export default function Main_Ground(props) {
   const { nodes, materials } = useGLTF('/models/main_ground.gltf')
   return (
     <group {...props} dispose={null}>

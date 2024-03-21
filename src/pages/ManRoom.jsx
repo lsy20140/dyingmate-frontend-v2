@@ -1,14 +1,13 @@
 import React, {useEffect, useState } from 'react'
 import { Canvas } from "@react-three/fiber";
-import { Man_Room } from '../components/models/ManRoom/ManRoom';
 import {OrbitControls, useProgress} from '@react-three/drei'
 import { CameraControls } from '../Camera';
-import { useRoomFocus } from '../contexts/RoomFocus';
-import { Man } from '../components/models/ManRoom/Man';
-import CharMainDialog from '../components/ui/CharMainDialog';
+import { useRoomFocus } from 'contexts/RoomFocus';
+import CharMainDialog from 'components/ui/CharMainDialog';
 import { MessageArr } from '../data/man_script';
-import { usePlay } from '../contexts/Play';
+import { usePlay } from 'contexts/Play';
 import Loading from './Loading';
+import { ManModel, ManRoomModel } from 'components/models';
 
 export default function ManRoom() {
   const {focus} = useRoomFocus();
@@ -44,8 +43,8 @@ export default function ManRoom() {
         <directionalLight intensity={10} castShadow decay={2} color="#ffffff" position={[20, 5, -5]} target-position={[2, 2, 0]} />
         <CameraControls position={position} target={target} />
         <group rotation-y={-Math.PI} rotation-z={-Math.PI/10} position-y={-3}>
-          <Man_Room/>
-          <Man/>
+          <ManRoomModel/>
+          <ManModel/>
         </group>
       </Canvas>
       {progress === 100 &&

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Canvas } from "@react-three/fiber";
-import { GMHome } from '../components/models/GrandmaRoom/GrandmaRoom';
 import {OrbitControls, useProgress} from '@react-three/drei'
 import { CameraControls } from '../Camera';
-import { useRoomFocus } from '../contexts/RoomFocus';
-import { Grandmother } from '../components/models/GrandmaRoom/Grandmother';
+import { useRoomFocus } from 'contexts/RoomFocus';
 import { MessageArr } from '../data/grandma_script';
-import CharMainDialog from '../components/ui/CharMainDialog';
-import { usePlay } from '../contexts/Play';
+import CharMainDialog from 'components/ui/CharMainDialog';
+import { usePlay } from 'contexts/Play';
 import Loading from './Loading';
+import { GrandmaModel, GrandmaRoomModel } from 'components/models';
 
 export default function GrandmaRoom() {
   const {focus} = useRoomFocus();
@@ -44,8 +43,8 @@ export default function GrandmaRoom() {
         <directionalLight intensity={3} castShadow decay={2} color="#d8b58d" position={[5, 8, -5]} target-position={[2, 10, 0]} />
         <CameraControls position={position} target={target} />
         <group rotation-y={-Math.PI} rotation-z={-Math.PI/10} position-y={-1}>
-          <GMHome/>
-          <Grandmother/>
+          <GrandmaRoomModel/>
+          <GrandmaModel/>
         </group>        
         </Canvas>
 

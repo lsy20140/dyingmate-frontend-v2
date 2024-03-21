@@ -6,7 +6,7 @@ Command: npx gltfjsx@6.2.14 manRoom.gltf
 import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 
-export function Man_Room(props) {
+export default function Man_Room(props) {
   const { nodes, materials } = useGLTF('/models/manRoom.gltf')
   return (
     <group {...props} dispose={null}>

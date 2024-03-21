@@ -6,7 +6,7 @@ Command: npx gltfjsx@6.2.15 ending.gltf
 import React, { useRef } from 'react'
 import { useGLTF, PerspectiveCamera } from '@react-three/drei'
 
-export function Ending(props) {
+export default function Ending(props) {
   const { nodes, materials } = useGLTF('/models/ending.gltf')
   return (
     <group {...props} dispose={null}>

@@ -6,7 +6,7 @@ Command: npx gltfjsx@6.2.13 5_5_Diary.gltf
 import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 
-export function Diary(props) {
+export default function Diary(props) {
   const { nodes, materials } = useGLTF('/models/5_5_Diary.gltf')
   return (
     <group {...props} dispose={null}>

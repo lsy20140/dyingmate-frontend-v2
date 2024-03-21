@@ -6,7 +6,7 @@ Command: npx gltfjsx@6.2.13 grandmotherRoom.gltf
 import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 
-export function GMHome(props) {
+export default function GMHome(props) {
   const { nodes, materials } = useGLTF('/models/grandmotherRoom.gltf')
   return (
     <group {...props} dispose={null}>

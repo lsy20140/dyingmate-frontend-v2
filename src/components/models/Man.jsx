@@ -6,7 +6,7 @@ Command: npx gltfjsx@6.2.13 man.gltf
 import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 
-export function Man(props) {
+export default function Man(props) {
   const { nodes, materials } = useGLTF('/models/man.gltf')
   return (
     <group {...props} dispose={null}>

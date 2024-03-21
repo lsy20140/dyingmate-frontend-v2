@@ -6,7 +6,7 @@ Command: npx gltfjsx@6.2.13 5_6_Will.gltf
 import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 
-export function Will(props) {
+export default function Will(props) {
   const { nodes, materials } = useGLTF('/models/5_6_Will.gltf')
   return (
     <group {...props} dispose={null}>
