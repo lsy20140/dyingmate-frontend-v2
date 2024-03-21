@@ -7,6 +7,7 @@ import { HidePwdIcon } from 'assets/icons';
 import {IoMdAlert} from 'react-icons/io'
 import SocialLogin from './SocialLogin';
 import { FORM_RESPONSES } from 'constants/formMessages';
+import Button from 'components/common/Button/Button';
 
 export default function LoginForm() {
   const navigate = useNavigate()
@@ -68,7 +69,7 @@ export default function LoginForm() {
           />
           <HidePwdIcon onClick={handlePwdHide}/>
         </PasswordInputWrapper>
-        <LoginButton>로그인</LoginButton>
+        <LoginButton type={'submit'}>로그인</LoginButton>
       </form>
       <SocialLogin />
     </>
@@ -118,12 +119,9 @@ const ValidText = styled.div`
   }
 `
 
-const LoginButton = styled.button`
+const LoginButton = styled(Button)`
   width: 100%;
   height: 3rem;
-  border: none;
-  background-color: var(--main-color);
-  color: white;
   margin-top: 2rem;
   padding: 0.75rem 1.5rem;
   border-radius: 20px;

@@ -8,6 +8,7 @@ import {IoMdAlert} from 'react-icons/io'
 import SocialLogin from './SocialLogin';
 import userApi from 'api/auth/user'
 import { FORM_RESPONSES } from 'constants/formMessages';
+import Button from 'components/common/Button/Button';
 
 export default function SignUpForm() {
   const navigate = useNavigate()
@@ -62,7 +63,13 @@ export default function SignUpForm() {
                 required
                 placeholder='아이디를 입력해주세요'
               />
-              <EmailCheckBtn type="button" isFill={field.value} onClick={() => handleCheckEmail(field.value)}>중복확인</EmailCheckBtn>
+              <EmailCheckBtn 
+                variant={field.value ? 'primary' : 'empty'} 
+                disabled={!field.value} 
+                onClick={() => handleCheckEmail(field.value)}
+              >
+                중복확인
+              </EmailCheckBtn>
             </>            
           )}
         />
@@ -129,7 +136,7 @@ export default function SignUpForm() {
           </>
         )}
       />
-      <LoginButton>회원가입</LoginButton>
+      <SignUpButton type={'submit'}>회원가입</SignUpButton>
     </form>
     <SocialLogin />
     </>
@@ -150,7 +157,6 @@ const PasswordInputWrapper = styled.div`
     position: absolute;
     right: 1rem;
   }
-
 `
 
 const EmailInputWrapper = styled.div`
@@ -160,11 +166,9 @@ const EmailInputWrapper = styled.div`
   margin-bottom: 1rem;
 `
 
-const EmailCheckBtn = styled.button`
+const EmailCheckBtn = styled(Button)`
   width: 7rem;
   padding: 0.5rem 1.5rem;
-  background-color: ${props => props.isFill ? 'var(--main-color)' : 'var(--font-gray-1)'};
-  color: white;
   border: none;
   border-radius: 1rem;
   flex-shrink: 0;
@@ -196,14 +200,10 @@ const FormInput = styled.input`
   &::placeholder {
     color: var(--font-gray-1);
   }
-  
 `
-const LoginButton = styled.button`
+const SignUpButton = styled(Button)`
   width: 100%;
   height: 3rem;
-  border: none;
-  background-color: var(--main-color);
-  color: white;
   margin-top: 2rem;
   padding: 12px 0;
   border-radius: 20px;

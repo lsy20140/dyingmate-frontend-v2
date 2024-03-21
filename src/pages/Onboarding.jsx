@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { ReactComponent as DialogNextIcon } from '../assets/icons/dialog_next_icon.svg'
+import { NextDialogIcon } from 'assets/icons'
 import {useNavigate} from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
-import { useAuthContext } from '../contexts/AuthContext'
 import { DiaglogArr } from '../data/onboarding'
 import userApi from 'api/auth/user'
+import { useAuthContext } from 'contexts/AuthContext'
+import Button from 'components/common/Button/Button'
 
 export default function Onboarding() {
   const navigate = useNavigate()
   const [curIdx, setCurIdx] = useState(0);
-  const [userName, setUserName] = useState('')
+  const [nameInput, setNameInput] = useState('')
+  const {setLogin} = useAuthContext()
+
   const location = useLocation();
   const {isSocialLogin} = location.state
   const {email, pwd} = !isSocialLogin && location.state
-  const {setLogin} = useAuthContext()
 
   useEffect(async () => {
     if(!isSocialLogin) {
@@ -23,14 +25,6 @@ export default function Onboarding() {
       setLogin(true)
     }
   },[])
-  
-  const handleDiaglogBox = () => {
-    setCurIdx(curIdx+1);
-  }
-
-  const handleChange = (e) => {
-    setUserName(e.target.value);
-  }
 
   const handleOnSubmit = async (e) => {
     e.preventDefault()
@@ -45,31 +39,36 @@ export default function Onboarding() {
       </audio>
       <Container>
         <VideoWrapper>
-          <video width="100%" height="100%" min-width="100%"  autoPlay muted playsInline loop>
+          <video width="100%" height="100%" min-width="100%" autoPlay muted playsInline loop>
             <source src={'/videos/onboardingVideo.mp4'} type="video/mp4" />
           </video>
         </VideoWrapper>
 
         <ContentBox>
+          {/* dialog 스크립트 출력되는 부분 */}
           <p>{DiaglogArr[curIdx].text.toString()}</p>
+
+          {/* 마지막 dialog 부분 제외하고 다음 스크립트로 넘어가기 위한 버튼을 보여줌 */}
           {(curIdx === 0 || curIdx === 1) &&
-            <span onClick={handleDiaglogBox}>
-              <DialogNextIcon/>
+            <span onClick={() => setCurIdx(curIdx+1)}>
+              <NextDialogIcon/>
             </span>
           }
+
+          {/* 마지막 dialog 도달 시에만 이름 저장하는 input 보여짐 */}
           { curIdx === 2 && 
           <Footer>
-            <InputBox>
+            <form onSubmit={handleOnSubmit}>
               <FormInput 
                 type='text' 
                 id='userName' 
                 name='userName' 
-                value={userName ?? ''}
+                value={nameInput ?? ''}
                 placeholder='이름을 입력해주세요.' 
-                onChange={handleChange}
+                onChange={(e) => setNameInput(e.target.value)}
                 required/>
-              <Button onClick={handleOnSubmit}>저장하기</Button>
-            </InputBox>
+              <SaveButton type='submit' variant={nameInput ? 'primary': 'empty'} disabled={!nameInput}>저장하기</SaveButton>
+            </form>
           </Footer>
           }
         </ContentBox>
@@ -127,26 +126,21 @@ const Footer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 1.75rem;
+
+  form{
+    display: flex;
+    justify-content: flex-end;
+  }
 `
 
-const Button = styled.button`
+const SaveButton = styled(Button)`
   display: block;
   width: 11rem;
   height: 3rem;
-  border: none;
-  background-color: var(--main-color);
-  color: white;
   padding: 0.75rem 1.5rem;
   border-radius: 1.25rem;
   position: absolute;
   font-weight: 700;
-
-`
-
-
-const InputBox= styled.div`
-  display: flex;
-  justify-content: flex-end;
 `
 
 const FormInput = styled.input`
