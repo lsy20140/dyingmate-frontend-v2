@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {IoIosClose} from 'react-icons/io'
-import IconStyledButton from '../../../ui/IconStyledButton'
+import IconStyledButton from '../../ui/IconStyledButton'
 import {PiImageSquareBold} from 'react-icons/pi'
-import { useAuthContext } from '../../../../contexts/AuthContext'
+import { useAuthContext } from '../../../contexts/AuthContext'
 import axios from 'axios'
-import { getRandomPos } from '../../../../apis/utils/PlayerRoom/getRandomPosition'
+import { getRandomPos } from '../../../apis/utils/PlayerRoom/getRandomPosition'
 
 const MAX_X = 1000
 const MIN_X = 0

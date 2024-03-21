@@ -4,10 +4,11 @@ import styled from 'styled-components'
 import { SettingIcon } from 'assets/icons'
 import {IoIosClose} from 'react-icons/io'
 import { LuRotateCcw} from 'react-icons/lu'
-import IconStyledButton from '../ui/IconStyledButton'
-import UserProfile from '../ui/UserProfile'
+import UserProfile from '../common/UserProfile'
 import { useEditUsername, useGetUser } from 'hooks/useAuth'
 import ResetAlertModal from './ResetAlertModal'
+import Button from 'components/common/Button/Button'
+import { colors } from 'styles/theme/colors'
 
 export default function SettingModal({showSetup, setShowSetup}) {
   const {data} = useGetUser()
@@ -43,29 +44,20 @@ export default function SettingModal({showSetup, setShowSetup}) {
           </Header>
           <ContentWrapper>
             <ProfileBox>
-              <UserProfile size={'large'} photoNum={data.photoNum} />
+              <UserProfile size={'large'} photoNum={data && data.photoNum} />
               <NameWrapper>
                 <p>닉네임</p>
                 <NameInput 
                   onChange={(e) => setInput(e.target.value)} 
                   value={input ?? ""} />
               </NameWrapper>
-              <SaveButton isFill={input !== data.name} onClick={handleEditUsername}>저장하기</SaveButton>
+              <SaveButton variant={input !== data.name ? 'secondary' : 'empty'} disabled={input === data.name} onClick={handleEditUsername}>저장하기</SaveButton>
               <ButtonWrapper>
                 <p onClick={handleLogout}>로그아웃</p>
                 <p>회원탈퇴</p>
               </ButtonWrapper>
             </ProfileBox>
-            <IconStyledButton 
-              width={"100%"} 
-              text={"초기화하기"} 
-              fontSize={'1.25rem'} 
-              fontWeight={500} 
-              color={`var(--font-gray-3)`} 
-              btnColor={"#F0EAE0"} 
-              icon={<LuRotateCcw />} 
-              handleOnClick={() => setAlertOpen(true)}
-            />
+            <ResetButton variant='light' onClick={() => setAlertOpen(true)}><LuRotateCcw /><p>초기화하기</p></ResetButton>
           </ContentWrapper>
         </Container>
       </Overlay>
@@ -147,15 +139,9 @@ const ProfileBox = styled.div`
 
   & > p{
     font-weight: 700;
-    color: var(--font-gray-3);
+    color: ${colors.gray[800]};
   }
 `
-
-const ProfileWrapper = styled.div`
-  width: 6rem;
-  height: 6rem;
-`
-
 const NameWrapper = styled.div`
   width: 100%;
   display: flex;
@@ -163,7 +149,7 @@ const NameWrapper = styled.div`
   gap: 0.2rem;
 
   p{
-    color: var(--font-gray-3);
+    color: ${colors.gray[800]};
     font-size: 0.875rem;
     font-weight: 500;
   }
@@ -172,9 +158,9 @@ const NameWrapper = styled.div`
 const NameInput = styled.input`
   width: 100%;
   padding: 0.69rem 1.25rem;
-  color: var(--font-gray-3);
-  background-color: #f3f3f3;
-  outline: 0.5px solid #999;
+  color: ${colors.gray[800]};
+  background-color: ${colors.gray[100]};
+  outline: 0.5px solid ${colors.gray[500]};
   box-sizing: border-box;
   border-radius: 0.75rem;
 `
@@ -199,18 +185,23 @@ const ButtonWrapper = styled.div`
     text-decoration-color: #EA0000;
   }
   p:last-child{
-    color: var(--font-gray-3);
-    text-decoration-color: var(--font-gray-3);
+    color: ${colors.gray[800]};
+    text-decoration-color: ${colors.gray[800]};
   }
 `
 
-const SaveButton = styled.button`
-  width: 100%;
-  background-color: ${props => props.isFill ? 'var(--main-color-2)' : 'var(--font-gray-1)'};
-  color: white;
+const SaveButton = styled(Button)`
   font-weight: 700;
-  text-align: center;
   padding: 0.75rem 0;
   border-radius: 0.75rem;
-  border: none;
+`
+
+const ResetButton = styled(Button)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  font-weight: 500;
+  padding: 0.75rem 0;
+  border-radius: 0.75rem;
 `

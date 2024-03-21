@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { ReactComponent as MainIcon } from '../../assets/icons/PlayerRoom//Friend/friend_list.svg'
+import { FriendIcon } from 'assets/icons'
 import {IoIosClose} from 'react-icons/io'
-import OneFriendItem from './FriendList/OneFriendItem'
-import OneRequestItem from './FriendList/OneRequestItem'
+import OneFriendItem from './OneFriendItem'
+import OneRequestItem from './OneRequestItem'
 import axios from 'axios'
-import OneSearchItem from './FriendList/OneSearchItem'
-import { useAuthContext } from '../../contexts/AuthContext'
-import { addFriendSuccess } from '../ui/ToastMessage'
-import {ToastContainer} from 'react-toastify'
-import { getFriendList } from '../../apis/api/PlayerRoom/friendList'
+import OneSearchItem from './OneSearchItem'
+import { useAuthContext } from '../../../contexts/AuthContext'
+import { addFriendSuccess } from '../../ui/ToastMessage'
+import { getFriendList } from '../../../apis/api/PlayerRoom/friendList'
 
 
 export default function FriendListModal({setFriendListModal}) {
@@ -111,7 +110,7 @@ export default function FriendListModal({setFriendListModal}) {
       <Container>
         <Header>
           <HeaderTitle>
-            <MainIcon/>
+            <FriendIcon/>
             <p>친구 목록</p>
           </HeaderTitle>
           <IoIosClose onClick={() => setFriendListModal()}/>

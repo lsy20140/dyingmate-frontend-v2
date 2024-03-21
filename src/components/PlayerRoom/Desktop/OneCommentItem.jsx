@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import {AiOutlineLike, AiTwotoneLike} from 'react-icons/ai'
-import UserProfile from '../../../ui/UserProfile'
+import UserProfile from '../../common/UserProfile'
 
 export default function OneCommentItem({name, profile, content, likeCount, date}) {  
   const [isClicked, setIsClicked] = useState() 

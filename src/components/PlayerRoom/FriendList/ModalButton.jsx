@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import {ReactComponent as FriendModalIcon} from '../../../assets/icons/PlayerRoom/Friend/friend_modal.svg'
+import { FriendBtnIcon } from 'assets/icons'
 
 export default function ModalButton({requestCount}) {
   return (
     <ButtonWrapper>
       <CircleWrapper>
-        <FriendModalIcon/>
+        <FriendBtnIcon/>
       </CircleWrapper>
       <RequestCount>
         {requestCount}

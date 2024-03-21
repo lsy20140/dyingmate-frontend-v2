@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {ReactComponent as MainIcon} from '../../../assets/icons/PlayerRoom/Desktop/main_icon.svg'
+import { ThumbUpIcon } from 'assets/icons'
 import OneCommentItem from './Desktop/OneCommentItem'
-import { useAuthContext } from '../../../contexts/AuthContext'
+import { useAuthContext } from 'contexts/AuthContext'
 import axios from 'axios'
-import { getCommentList } from '../../../apis/api/PlayerRoom/community'
-import { nullWarning } from '../../ui/ToastMessage'
+import { getCommentList } from '../../apis/api/PlayerRoom/community'
+import { nullWarning } from '../ui/ToastMessage'
 
 export default function Desktop() {
   const [isOpen, setIsOpen] = useState(false)
@@ -54,7 +54,7 @@ export default function Desktop() {
       <Container>
         <Header>
           <HeaderTitle>
-            <MainIcon/>
+            <ThumbUpIcon/>
             <p>죽음에 대해 토론해봐요!</p>
           </HeaderTitle>
           {/* <IoIosClose/> */}

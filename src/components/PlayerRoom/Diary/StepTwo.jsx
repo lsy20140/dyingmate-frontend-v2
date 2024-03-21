@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {ReactComponent as MainIcon} from 'assets/icons/PlayerRoom/Diary/main_icon.svg'
+import { MoonIcon } from 'assets/icons';
 import { useDiaryContext } from 'contexts/DiaryContext';
 import GraveStoneSrc from 'assets/img/PlayerRoom/gravestone.webp'
 import axios from 'axios'
@@ -56,7 +56,7 @@ export default function StepTwo({epitaph}) {
       <GraveStone><p>{stoneText}</p></GraveStone>
       <div>
         <TextArea>
-          <MainIcon/>
+          <MoonIcon/>
           <Text>
             <p>묘비명</p>
             <p>나의 품격과 소중함을 남겨진 사람들에게 알리는 중요한 메세지 입니다. <br/>
@@ -118,8 +118,6 @@ const GraveStone = styled.div`
     word-break: break-all;
     text-align: center;
   }
-
-
 `
 
 const TextArea = styled.div`
@@ -128,7 +126,6 @@ const TextArea = styled.div`
   max-width: 50rem;
   width: fit-content;
   gap: 1.8rem;
-
 `
 
 const Text = styled.div`

@@ -4,12 +4,11 @@ import StepOne from './Diary/StepOne'
 import StepTwo from './Diary/StepTwo'
 import StepThree from './Diary/StepThree'
 import StepFinal from './Diary/StepFinal'
-import {ReactComponent as PrevButton} from '../../../assets/icons/PlayerRoom/Diary/prev_btn.svg'
-import {ReactComponent as NextButton} from '../../../assets/icons/PlayerRoom/Diary/next_btn.svg'
-import ProgressBar from '../../Diary/ProgressBar'
+import { ArrowLeftIcon, ArrowRightIcon } from 'assets/icons'
+import ProgressBar from './Diary/ProgressBar'
 import axios from 'axios'
-import { useDiaryContext } from '../../../contexts/DiaryContext'
-import { useAuthContext } from '../../../contexts/AuthContext'
+import { useDiaryContext } from 'contexts/DiaryContext'
+import { useAuthContext } from 'contexts/AuthContext'
 import {ToastContainer} from 'react-toastify'
 
 export default function Diary() {
@@ -71,9 +70,9 @@ export default function Diary() {
     <>
       <Container>
         <MainComponent>
-          <Button onClick={(e)=>{handleIndex('prev', e)}} style={(curIdx === 1) ? {opacity: 0} : {}}><PrevButton/></Button>
+          <Button onClick={(e)=>{handleIndex('prev', e)}} style={(curIdx === 1) ? {opacity: 0} : {}}><ArrowLeftIcon/></Button>
           {comp}
-          <Button onClick={(e)=>{handleIndex('next', e)}} style={(curIdx === 4) ? {opacity: 0} : {}}><NextButton/></Button>
+          <Button onClick={(e)=>{handleIndex('next', e)}} style={(curIdx === 4) ? {opacity: 0} : {}}><ArrowRightIcon/></Button>
         </MainComponent>
         <ProgressBar curIdx={curIdx}/>
       </Container>

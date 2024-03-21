@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import UserProfile from '../../ui/UserProfile'
+import UserProfile from '../../common/UserProfile'
 
 export default function OneFriendItem({userId, username, photoNum}) {
   return (

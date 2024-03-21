@@ -3,7 +3,7 @@ import {ReactComponent as Pin} from '../../../../assets/img/PlayerRoom/pin.svg'
 import styled from 'styled-components'
 import Draggable from 'react-draggable';
 import axios from 'axios'
-import { useAuthContext } from '../../../../contexts/AuthContext';
+import { useAuthContext } from '../../../contexts/AuthContext';
 
 export default function OnePostItem({memo, memo:{content, photo, memoX, memoY, isComplete}}) {
   const baseUrl = 'https://dying-mate-server.link'

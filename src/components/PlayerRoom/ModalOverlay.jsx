@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { usePlay } from '../../contexts/Play';
-import { ReactComponent as CloseModal } from '../../assets/icons/close_modal.svg'
-import {ReactComponent as TitleSrc} from '../../assets/img/title.svg'
-
-import Will from '../PlayerRoom/MainModalContent/Will'
-import Phone from '../PlayerRoom/MainModalContent/Phone'
-import Diary from '../PlayerRoom/MainModalContent/Diary'
-import Board from './MainModalContent/Board';
-import Shelf from './MainModalContent/Shelf/Shelf';
-import Desktop from './MainModalContent/Desktop';
+import { usePlay } from 'contexts/Play';
+import { CloseIcon } from 'assets/icons';
+import {ReactComponent as Logo} from 'assets/img/logo.svg'
+import Will from './Will'
+import Phone from './Phone'
+import Diary from './Diary'
+import Board from './Board';
+import Shelf from './Shelf';
 
 export default function ModalOverlay({curIdx, setCamera}) {
   const {setFocus} = usePlay()
@@ -47,8 +45,8 @@ export default function ModalOverlay({curIdx, setCamera}) {
   return (
     <Overlay>
       <Header>
-        <TitleSrc />
-        <CloseModal onClick={handleClick}/>
+        <Logo />
+        <CloseIcon onClick={handleClick}/>
       </Header>
       <MainComp>
         {comp}

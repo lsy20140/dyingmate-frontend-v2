@@ -5,7 +5,7 @@ import NewImagePost from './Board/NewImagePost'
 import AddPostModal from './Board/AddPostModal'
 import axios from 'axios'
 import OnePostItem from './Board/OnePostItem'
-import { useAuthContext } from '../../../contexts/AuthContext'
+import { useAuthContext } from '../../contexts/AuthContext'
 
 export default function Board() {
   const [openModal, setOpenModal] = useState(false)

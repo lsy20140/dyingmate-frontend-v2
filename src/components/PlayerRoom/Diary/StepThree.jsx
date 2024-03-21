@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import {ReactComponent as MainIcon} from 'assets/icons/PlayerRoom/Diary/main_icon.svg'
+import { MoonIcon } from 'assets/icons'
 import UploadFrameSrc from 'assets/img/PlayerRoom/upload_frame.webp'
 import { useDiaryContext } from 'contexts/DiaryContext'
 import {FiFolderPlus} from 'react-icons/fi'
 import { useAuthContext } from 'contexts/AuthContext'
 import axios from 'axios'
-import { editSuccess } from '../../../ui/ToastMessage'
+import { editSuccess } from 'components/ui/ToastMessage'
 
 export default function StepThree({photo}) {
   const fileInput = useRef(null)
@@ -67,7 +67,7 @@ export default function StepThree({photo}) {
         <input type="file" name='file' ref={fileInput} accept='.png, .jpg,image/*' onChange={handleChange}/>
       </UploadBox>
       <TextArea>
-        <MainIcon/>
+        <MoonIcon/>
         <Text>
           <p>영정사진은, </p>
           <p>나의 품격과 소중함을 남겨진 사람들에게 알리는 중요한 메세지 입니다. <br/>

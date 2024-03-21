@@ -1,12 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import {ReactComponent as MainIcon} from '../../../assets/icons/PlayerRoom/Phone/main_icon.svg'
-import {ReactComponent as IconWrapper} from '../../../assets/icons/PlayerRoom/Phone/header_wrapper.svg'
 import axios from 'axios'  
-import StyledButton from '../../ui/StyledButton'
-import {ReactComponent as SendIcon} from '../../../assets/icons/PlayerRoom/Phone/send_icon.svg'
-import { ReactComponent as BubbleVector } from '../../../assets/img/PlayerRoom/message_bubble_vec.svg'
-import { useAuthContext } from '../../../contexts/AuthContext'
+import { ReactComponent as BubbleVector } from 'assets/img/PlayerRoom/message_bubble_vec.svg'
+import { ChatBubbleIcon, PhoneHeaderIcon, SendMessageIcon } from 'assets/icons'
+import { useAuthContext } from 'contexts/AuthContext'
 import {IoMdAlert} from 'react-icons/io'
 
 export default function Phone() {
@@ -72,7 +69,7 @@ export default function Phone() {
         <PhoneWrapper>
           <Header>
             <p>{date.getHours()}:{String(date.getMinutes()).padStart(2, "0")}</p>
-            <IconWrapper/>
+            <PhoneHeaderIcon/>
           </Header>
           <Main>
             <p>부고문자는 한번만 작성할 수 있으니 신중하게 작성해야 합니다. <br/>
@@ -113,11 +110,11 @@ export default function Phone() {
 
             </TextAreaWrapper>
 
-            <StyledButton width={'7rem'} handleOnClick={handleSubmit} text={<SendIcon/>} btnColor={`var(--main-color)`} />
+            <button width={'7rem'} handleOnClick={handleSubmit} text={<SendMessageIcon/>} btnColor={`var(--main-color)`} />
           </Footer>
         </PhoneWrapper>
         <TextArea>
-          <MainIcon/>
+          <ChatBubbleIcon/>
           <div>부고 문자를 작성해요</div>
           <p>나의 죽음을 어떻게 전해야 할 지 나의 주변인들을 <br/> 생각하면서 신중하게 고민해보세요.  </p>
           <p>실제 부고 문자 작성 에서는 상주, 고인과의 관계, 장례식장,<br/> 발인 일시 등이 들어가야 해요.</p>

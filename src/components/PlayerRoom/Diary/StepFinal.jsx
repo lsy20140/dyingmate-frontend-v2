@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import {ReactComponent as MainIcon} from 'assets/icons/PlayerRoom/Diary/main_icon.svg'
+import { MoonIcon } from 'assets/icons'
 import axios from 'axios'  
 import { useAuthContext } from 'contexts/AuthContext'
 import { useDiaryContext } from 'contexts/DiaryContext'
@@ -39,7 +39,7 @@ export default function StepFinal() {
   return (
     <Content>
       <TextArea>
-        <MainIcon/>
+        <MoonIcon/>
         <Text>
           <p>나의 죽음이 모두 준비되었어요.</p>
           <p>직접 작성한 묘비명과 영정사진을 확인하고 나의 죽음에 대해 <br/>

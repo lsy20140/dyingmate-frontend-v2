@@ -1,11 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import ColumnItem from './ColumnItem'
-import {ReactComponent as MainIcon} from '../../../../assets/icons/PlayerRoom/Shelf/main_icon.svg'
-import {CgClose} from 'react-icons/cg'
-import {ReactComponent as PrevButton} from '../../../../assets/icons/PlayerRoom/Shelf/prev_btn.svg'
-import {ReactComponent as NextButton} from '../../../../assets/icons/PlayerRoom/Shelf/next_btn.svg'
-import ColumnData from '../../../../data/column'
+import ColumnItem from '../Shelf/ColumnItem'
+import { MailIcon, ArrowLeftIcon, ArrowRightIcon } from 'assets/icons'
+import ColumnData from '../../data/column'
 
 export default function Shelf() {
   const [scrollPage, setScrollPage]=useState(0);
@@ -37,7 +34,7 @@ useEffect(() => {
     <Container>
       <Header>
         <HeaderTitle>
-          <MainIcon/>
+          <MailIcon/>
           <p>웰다잉 칼럼</p>
         </HeaderTitle>
         {/* <CgClose fontSize={'1.5rem'}/> */}
@@ -50,8 +47,8 @@ useEffect(() => {
           })}
         </SlideList>
       </SlideWrapper>
-      <PrevButtonWrapper onClick={(e) => handleScrollLeft(e)} style={scrollPage === 0 ? {opacity: 0, cursor: 'default'} : {}}><PrevButton /></PrevButtonWrapper>
-      <NextButtonWrapper onClick={(e) => handleScrollRight(e)} style={(scrollPage === 10) ? {opacity: 0, cursor: 'default'} : {}}><NextButton/></NextButtonWrapper>
+      <PrevButtonWrapper onClick={(e) => handleScrollLeft(e)} style={scrollPage === 0 ? {opacity: 0, cursor: 'default'} : {}}><ArrowLeftIcon /></PrevButtonWrapper>
+      <NextButtonWrapper onClick={(e) => handleScrollRight(e)} style={(scrollPage === 10) ? {opacity: 0, cursor: 'default'} : {}}><ArrowRightIcon/></NextButtonWrapper>
     </Container>
   )
 }

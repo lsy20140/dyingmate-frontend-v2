@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {ReactComponent as MainIcon} from '../../../../assets/icons/PlayerRoom/Diary/main_icon.svg'
-import MethodItem from '../../../Diary/MethodItem'
-import MethodExplain from '../../../Diary/MethodExplain';
-import { useDiaryContext } from '../../../../contexts/DiaryContext';
+import { MoonIcon } from 'assets/icons'
+import MethodItem from './MethodItem'
+import MethodExplain from './MethodExplain';
+import { useDiaryContext } from 'contexts/DiaryContext';
 import axios from 'axios'
-import { useAuthContext } from '../../../../contexts/AuthContext';
-import { editSuccess } from '../../../ui/ToastMessage';
+import { useAuthContext } from 'contexts/AuthContext';
+import { editSuccess } from 'components/ui/ToastMessage';
 
 export default function StepOne({method}) {
   const {diary, setDiary} = useDiaryContext()
@@ -53,7 +53,7 @@ export default function StepOne({method}) {
   return (
     <Content>
       <TextArea>
-        <MainIcon/>
+        <MoonIcon/>
         <Text>
           <p>장례방식은,</p>
           <p>당신의 존재와 가치를 빛내는 소중한 결정입니다.<br/>

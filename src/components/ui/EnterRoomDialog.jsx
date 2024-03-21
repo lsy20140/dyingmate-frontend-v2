@@ -1,50 +1,22 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import StyledButton from './StyledButton'
 import {useNavigate} from 'react-router-dom'
-import { useStageContext } from '../../contexts/StageContext'
-import { EnterRoomMsg } from '../../data/enter_room_dialog'
+import { EnterRoomMsg } from 'data/enter_room_dialog'
+import { useGetStage } from 'hooks/useStage'
+import { STAGE_INFO } from 'constants/stage'
+import Button from 'components/common/Button/Button'
 
 export default function EnterRoomDialog({stageNum, setShowEndingBox}) {
   const navigate = useNavigate()
-  const {stage} = useStageContext()
+  const {data: stage} = useGetStage()
   const [enterFail, setEnterFail] = useState(false)
 
-  const handleOnClick = (close) => {
-    switch(stageNum) {
-      case 1:
-        navigate('/gmroom')
-        break;
-      case 2:
-        if(stage.stage2 === true){
-          navigate('/manroom')
-        }else{
-          setEnterFail(true)
-        }
-        break;
-      case 3:
-        if(stage.stage3 === true){
-          navigate('/womanroom')
-        }else{
-          setEnterFail(true)
-        }
-        break;
-      case 4:
-        if(stage.stage4 === true){
-          navigate('/playerroom')
-        }else{
-          setEnterFail(true)
-        }
-        break;
-      case 5:
-        if(close) {
-          setShowEndingBox((prev) => !prev)
-          return;
-        }
-        navigate('/final')
-        break;
-    } 
-    
+  const handleOnClick = () => {
+    if(stage['stage'+stageNum] === true || stageNum === 5){
+      navigate(STAGE_INFO[stageNum-1].path)
+    }else{
+      setEnterFail(true)
+    }    
   }
 
   return (
@@ -55,18 +27,16 @@ export default function EnterRoomDialog({stageNum, setShowEndingBox}) {
             <>
               <p>{EnterRoomMsg[stageNum].text}</p>
               {stageNum !== 5
-                ? <StyledButton width={'7.5rem'} text={'입장하기'} textColor={'white'} btnColor={'var(--main-color)'} handleOnClick={() => handleOnClick()}/> 
+                ? <StyledButton onClick={() => handleOnClick()}>입장하기</StyledButton> 
                 : <ButtonWrapper>
-                    <StyledButton width={'7.5rem'} text={'나중에'} textColor={'white'} btnColor={'#DEDEDE'} handleOnClick={() => handleOnClick(close)}/> 
-                    <StyledButton width={'7.5rem'} text={'이동하기'} textColor={'white'} btnColor={'var(--main-color)'} handleOnClick={() => handleOnClick()}/> 
+                    <StyledButton variant='light' onClick={() => setShowEndingBox((prev) => !prev)}>나중에</StyledButton>
+                    <StyledButton onClick={() => handleOnClick()}>이동하기</StyledButton>
                   </ButtonWrapper>
-                
               }
             </>
             :
             <p>{EnterRoomMsg[0].text}</p>
           }
-
         </DialogBox>
       </DialogBoxWrapper>
     </> 
@@ -107,4 +77,10 @@ const DialogBox = styled.div`
 const ButtonWrapper = styled.div`
   display: flex;
   gap: 1rem;
+`
+
+const StyledButton = styled(Button)`
+  width: 7.5rem;
+  padding: 0.75rem 0;
+  border-radius: 1.25rem;
 `

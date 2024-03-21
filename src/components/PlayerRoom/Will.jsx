@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import {ReactComponent as MainIcon} from 'assets/icons/PlayerRoom/Will/main_icon.svg'
+import { PencilIcon } from 'assets/icons';
 import willPaper from 'assets/img/PlayerRoom/will_paper.webp'
-import StyledButton from 'components/ui/StyledButton';
 import axios from 'axios'  
 import { useAuthContext } from 'contexts/AuthContext';
 import {ToastContainer} from 'react-toastify'
@@ -81,7 +80,7 @@ export default function Will() {
     <>
       <Container>
         <TextArea>
-          <MainIcon/>
+          <PencilIcon/>
           <div>다음 질문을 통해, </div>
           <p>나의 삶에 대해 신중히 고민해보고 <br/> 유언장을 써내려가 보아요. </p>
           <p>나는 어떤 사람이었나요? <br/>
@@ -103,9 +102,9 @@ export default function Will() {
             required
           />
           { hasData ?
-            <StyledButton width={'8rem'} handleOnClick={handleEdit} text={"수정하기"} textColor={`var(--font-gray-3)`} btnColor={'#F0EAE0'} />
+            <button width={'8rem'} handleOnClick={handleEdit} text={"수정하기"} textColor={`var(--font-gray-3)`} btnColor={'#F0EAE0'} />
             :
-            <StyledButton type="submit" width={'8rem'} handleOnClick={handleSubmit} text={"저장하기"} textColor={'white'} btnColor={`var(--main-color)`} />
+            <button type="submit" width={'8rem'} handleOnClick={handleSubmit} text={"저장하기"} textColor={'white'} btnColor={`var(--main-color)`} />
           }
         </WillContainer>
       </Container>
