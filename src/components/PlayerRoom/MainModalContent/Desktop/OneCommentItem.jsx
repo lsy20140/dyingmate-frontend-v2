@@ -18,7 +18,7 @@ export default function OneCommentItem({name, profile, content, likeCount, date}
       <CommentItem>
         <WriterInfo>
           <ProfileWrapper>
-            <UserProfile photoNum={profile} />
+            <UserProfile size={'small'} photoNum={profile} />
           </ProfileWrapper>
           <p>{name}</p>
         </WriterInfo>

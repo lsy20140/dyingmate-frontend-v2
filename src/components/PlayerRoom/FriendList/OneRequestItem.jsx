@@ -6,9 +6,7 @@ export default function OneRequestItem({userId, photoNum, username, handleAccept
   return (
     <ItemBox>
       <UserInfo>
-        <ProfileWrapper>
-          <UserProfile photoNum={photoNum}/>
-        </ProfileWrapper>
+        <UserProfile size={'normal'} photoNum={photoNum}/>
         <IdNameText>
           <p>@{userId}</p>
           <p>{username}</p>

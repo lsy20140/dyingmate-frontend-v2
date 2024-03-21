@@ -3,12 +3,11 @@ import styled from 'styled-components'
 import {BiLock}  from 'react-icons/bi'
 import {useNavigate} from 'react-router-dom'
 
-export default function MapItem({isClear, stageTitle, stageImg, path}) {
+export default function MapItem({isClear, title, image, path}) {
   const navigate = useNavigate();
 
   const handleOnClick = (isClear) => {
     {isClear && navigate(path)}
-    
   }
   
   return (
@@ -20,9 +19,9 @@ export default function MapItem({isClear, stageTitle, stageImg, path}) {
               <BiLock fontSize='2.5rem'/>
             </LockCover>
           }
-          <StageImage image={stageImg} /> 
+          <StageImage image={image} /> 
         </ImageWrapper> 
-        <StageTitle>{stageTitle}</StageTitle>
+        <StageTitle>{title}</StageTitle>
       </Content>
     </ItemBox>
   )
@@ -30,6 +29,7 @@ export default function MapItem({isClear, stageTitle, stageImg, path}) {
 
 const ItemBox = styled.div`
   position: relative;
+  cursor: ${props => props.isClear ? 'pointer' : 'default' };
   width: 100%;
   height: 100%;
   &, & *{
@@ -41,7 +41,6 @@ const ItemBox = styled.div`
   border: 2px solid white;
   backdrop-filter: blur(60px);
 `
-
 
 const Content = styled.div`
   display: flex;

@@ -26,7 +26,7 @@ export default function SettingModal({showSetup, setShowSetup}) {
   }
 
   useEffect(() => {
-    setInput(data && data.name.toString())
+    setInput(data && data.name)
   },[data, showSetup])
 
   return (
@@ -42,10 +42,8 @@ export default function SettingModal({showSetup, setShowSetup}) {
             <IoIosClose onClick={() => setShowSetup(!showSetup)}/>
           </Header>
           <ContentWrapper>
-          <ProfileBox>
-              <ProfileWrapper>
-                <UserProfile photoNum={data.photoNum} />
-              </ProfileWrapper>
+            <ProfileBox>
+              <UserProfile size={'large'} photoNum={data.photoNum} />
               <NameWrapper>
                 <p>닉네임</p>
                 <NameInput 

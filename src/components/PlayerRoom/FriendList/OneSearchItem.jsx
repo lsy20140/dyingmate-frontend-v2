@@ -10,10 +10,7 @@ export default function OneSearchItem({isExist, email, name, photo, handleAddFri
     {isExist ?
       <ItemBox>
         <UserInfo>
-          {/* 사용자 프로필 사진으로 변경 필요 */}
-          <ProfileWrapper>
-            <UserProfile photoNum={photo}/>
-          </ProfileWrapper>
+          <UserProfile size={'small'} photoNum={photo}/>
           <IdNameText>
             <p>@{email}</p>
             <p>{name}</p>
