@@ -8,3 +8,17 @@ export const useGetStage = () => {
   })
   return {data, isSuccess}
 }
+
+export const useOpenStage = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (stage) => stageApi.openStage(stage),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ['stage'],
+        refetchType: 'all'
+      });
+    }
+  })
+}

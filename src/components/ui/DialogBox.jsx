@@ -2,19 +2,18 @@ import React, { useCallback, useState, useEffect } from 'react'
 import Message from '../Message';
 import styled from 'styled-components';
 import {useNavigate} from 'react-router-dom'
-import { ReactComponent as DialogNextIcon } from '../../assets/icons/dialog_next_icon.svg'
-import { useRoomFocus } from '../../contexts/RoomFocus';
-import { useAuthContext } from '../../contexts/AuthContext';
-import {useStageContext} from '../../contexts/StageContext'
-import axios from 'axios'
+import { NextDialogIcon } from 'assets/icons';
+import { useRoomFocus } from 'contexts/RoomFocus';
+import {useStageContext} from 'contexts/StageContext'
+import { useOpenStage } from 'hooks/useStage';
 
 export default function DialogBox({messageArr, stageNum}) {
   const [curMessage, setCurMessage] = useState(0);
   const [messageEnded, setMessageEnded] = useState(false);
   const {setFocus} = useRoomFocus();
   const navigate = useNavigate()
-  const {token} = useAuthContext()
   const {setComeOutRoom} = useStageContext()
+  const {mutate: openStage} = useOpenStage()
 
     const handleOnClick = useCallback(() => {
       setMessageEnded(false);
@@ -26,20 +25,7 @@ export default function DialogBox({messageArr, stageNum}) {
       }
 
       if(curMessage > messageArr.length -2) {
-        axios
-        .patch(`https://dying-mate-server.link/map/open/${stageNum+1}`, {}, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-          withCredentials: true,
-        })
-        .then((response) => {
-          console.log(response)
-            
-        }).catch(function (error) {
-            // 오류발생시 실행
-            console.log(error)
-        })
+        openStage(stageNum+1)
         setTimeout(() => {
           navigate('/main')
         }, 3000)
@@ -64,7 +50,7 @@ export default function DialogBox({messageArr, stageNum}) {
         }}
       />
       <NextButton onClick={handleOnClick}>
-        {(curMessage === messageArr.length - 1) ?  <DialogNextIcon />: <DialogNextIcon />}
+        {(curMessage === messageArr.length - 1) ?  <NextDialogIcon />: <NextDialogIcon />}
       </NextButton>
     </Container>
   )
