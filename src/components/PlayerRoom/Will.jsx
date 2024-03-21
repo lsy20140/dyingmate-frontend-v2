@@ -2,79 +2,44 @@ import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { PencilIcon } from 'assets/icons';
 import willPaper from 'assets/img/PlayerRoom/will_paper.webp'
-import axios from 'axios'  
-import { useAuthContext } from 'contexts/AuthContext';
 import {ToastContainer} from 'react-toastify'
-import { editSuccess, nullWarning, saveSuccess } from 'components/ui/ToastMessage';
+import { useToast } from 'hooks/useToast';
+import { TOAST_MESSAGES } from 'constants/toastMessages';
+import { useGetWill, useSaveWill, useUpdateWill } from 'hooks/useWill';
+import Button from 'components/common/Button/Button';
 
 
 export default function Will() {
-  let [inputData, setInputData] = useState('');
-  const [data, setData] = useState('')
-  const hasData = data && (data !== '')
-  const {token} = useAuthContext();
+  let [input, setInput] = useState('');
   const textarea = useRef();
-
-  const baseUrl = 'https://dying-mate-server.link'
+  const {data: will} = useGetWill()
+  const {mutate: saveWill} = useSaveWill()
+  const {mutate: editWill} = useUpdateWill()
+  const hasData = will && will.content
 
   const handleChange = (e) => {
-    setInputData(e.target.value)
+    setInput(e.target.value)
     textarea.current.style.height = '42rem'
     // textarea.current.style.height = textarea.current.scrollHeight + 'px';
   }
 
   const handleSubmit = (e) => {   
-    if(inputData === '') {
-      nullWarning()
+    e.preventDefault()
+    if(input === '') {
+      useToast('warning', TOAST_MESSAGES.INPUT_REQUIRED)
       return 
     }
-    axios
-    .post(`${baseUrl}/will/write`, {content: inputData}, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      withCredentials: true,
-    })
-    .then((response) => {
-      console.log(response)
-      saveSuccess()
-    }).catch(function (error) {
-        // 오류발생시 실행
-        console.log(error.message)
-    })
+    saveWill(input)
   }
 
   const handleEdit = (e) => {
-    axios.patch(
-      `${baseUrl}/will/modify`, 
-      {content: inputData}, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-        withCredentials: true,
-      })
-    .then((response) => {
-      console.log(response)
-      editSuccess()
-        
-    }).catch(function (error) {
-        // 오류발생시 실행
-        console.log(error.message)
-    })
+    e.preventDefault()
+    editWill(input)
   }
 
   useEffect(() => {
-    axios.get(`${baseUrl}/will/load`, {
-      headers: {Authorization: 'Bearer ' + token},
-    }, )
-    .then(function (response) {
-      setInputData(response.data.data.content ?? '')
-      setData(response.data.data.content ?? '')
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  },[])
+    setInput(will && will.content)
+  },[will])
 
   return (
     <>
@@ -88,24 +53,19 @@ export default function Will() {
               무엇인가요?</p>
           <p>죽기 전, 가장 떠오르는 사람은 누구인가요? </p>
         </TextArea>
-        {/* form 태그에 onSubmit 추가 */}
-        <WillContainer method='POST'>
+        <WillContainer onSubmit={hasData ? handleEdit : handleSubmit}>
           <FormInput 
             ref={textarea}
             type={"text"}
             id='content' 
             name='content' 
-            value={inputData ?? ''}
+            value={input ?? ''}
             onChange={handleChange}
             placeholder='내용을 입력해주세요.' 
             spellCheck="false"
             required
           />
-          { hasData ?
-            <button width={'8rem'} handleOnClick={handleEdit} text={"수정하기"} textColor={`var(--font-gray-3)`} btnColor={'#F0EAE0'} />
-            :
-            <button type="submit" width={'8rem'} handleOnClick={handleSubmit} text={"저장하기"} textColor={'white'} btnColor={`var(--main-color)`} />
-          }
+          <StyledButton type="submit" variant={hasData ? 'light' : !input ? 'empty' : 'primary'}>{hasData ? '수정하기' : '저장하기'}</StyledButton>
         </WillContainer>
       </Container>
       <ToastContainer />
@@ -168,4 +128,10 @@ const FormInput = styled.textarea`
     font-family: 'UnPilgi';
   }
   caret-color: transparent
+`
+
+const StyledButton = styled(Button)`
+  width: 8rem;
+  border-radius: 1.25rem;
+  padding: 0.75rem 0;
 `
