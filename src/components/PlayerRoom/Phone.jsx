@@ -1,117 +1,85 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
-import axios from 'axios'  
+import {useForm, Controller} from 'react-hook-form'
 import { ReactComponent as BubbleVector } from 'assets/img/PlayerRoom/message_bubble_vec.svg'
 import { ChatBubbleIcon, PhoneHeaderIcon, SendMessageIcon } from 'assets/icons'
-import { useAuthContext } from 'contexts/AuthContext'
 import {IoMdAlert} from 'react-icons/io'
+import { useGetMessage, useSaveMessage } from 'hooks/useMessage'
+import { getCurrentTime, getDetailDate } from 'utils/getDate'
+import Button from 'components/common/Button/Button'
+import { FORM_RESPONSES } from 'constants/formMessages'
 
 export default function Phone() {
-  const [inputData, setInputData] = useState('')
-  const [data, setData] = useState('')
-  const [isSend, setIsSend] = useState(false);
-  const [isMaxLength, setIsMaxLength] = useState(false)
-
-  const baseUrl = 'https://dying-mate-server.link'
-  const {token} = useAuthContext();
-
-  // 날짜 구하기
-  const date = new Date();
-  const week = ['일', '월', '화', '수', '목', '금', '토'];
-
   const textarea = useRef();
+  const {control, handleSubmit} = useForm()
+  const [isSend, setIsSend] = useState(false);
+  const {data} = useGetMessage()
+  const {mutate: sendMessage} = useSaveMessage()
 
-
-  const handleChange = (e) => {
-    const {value, maxLength} = e.target
-    setInputData(value);
-    textarea.current.style.height = textarea.current.scrollHeight + 'px';
-    setIsMaxLength(value.length === maxLength)
+  const handleResizeHeight = () => {
+    if(textarea){
+      textarea.current.style.height = 'auto';
+      textarea.current.style.height = textarea.current.scrollHeight + "px";
+    }
   }
 
-  const handleSubmit = async (e) => {
+  const onSubmit = async (data) => {
     setIsSend(true);
-    setInputData('')
-    setData(inputData)
-    textarea.current.style.height = '4rem'
-    setIsMaxLength(false)
-    axios.post(`${baseUrl}/message/send`, {message: inputData}, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      withCredentials: true,
-    })
-    .then((response) => {
-      console.log(response)        
-    }).catch(function (error) {
-        // 오류발생시 실행
-        console.log(error.message)  
-    })
+    sendMessage(data.message)
   }
-
-  useEffect(() => {
-    axios.get(`${baseUrl}/message/load`, {
-      headers: {Authorization: 'Bearer ' + token},
-    }, )
-    .then(function (response) {
-      setData(response.data.data.message)    
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
- 
-  },[])
-
 
   return (
     <>
       <Container>
         <PhoneWrapper>
           <Header>
-            <p>{date.getHours()}:{String(date.getMinutes()).padStart(2, "0")}</p>
+            <p>{getCurrentTime()}</p>
             <PhoneHeaderIcon/>
           </Header>
           <Main>
             <p>부고문자는 한번만 작성할 수 있으니 신중하게 작성해야 합니다. <br/>
-              {date.getMonth()+1}월 {date.getDate()}일 ({week[date.getDay()]}) {date.getHours()}:{String(date.getMinutes()).padStart(2, "0")}
+              {getDetailDate()}
             </p>
-            {(isSend || data.length>0) && 
-            <MessageArea>
-              <Bubble>
-                <p>{data}</p>
-                <BubbleVector/>
-              </Bubble>
-            </MessageArea>
+            {(isSend || (data && data.message.length>0)) && 
+              <MessageArea>
+                <Bubble>
+                  <p>{data && data.message}</p>
+                  <BubbleVector/>
+                </Bubble>
+              </MessageArea>
             }
 
           </Main>
-          <Footer method='POST'>
-            <TextAreaWrapper>
-              {isMaxLength && 
-                <ValidText>
-                  <IoMdAlert/>
-                  <p>200자까지만 작성 가능합니다.</p>
-                </ValidText>
-              }
-
-              <FormInput 
-                ref={textarea}
-                type={"text"}
-                id='message' 
-                name='message' 
-                value={inputData ?? ''}
-                onChange={handleChange}
-                placeholder='부고 문자에 들어갈 내용을 작성해주세요.' 
-                spellCheck="false"
-                required
-                maxLength={200}
-                isMaxLength={isMaxLength}
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Controller
+                control={control}
+                name="message"
+                render={({field}) => (
+                  <>
+                    {field.value && field.value.length >=200 &&
+                      <ValidText>
+                        <IoMdAlert/>
+                        <p>{FORM_RESPONSES.MAX_200_LENGTH}</p>
+                      </ValidText>
+                    }
+                    <InputWrapper>
+                      <FormInput
+                        ref={textarea}
+                        value={isSend ? '' : field.value}
+                        placeholder='부고 문자에 들어갈 내용을 작성해주세요.'
+                        maxLength={200}
+                        spellCheck='false'
+                        onKeyDown={handleResizeHeight}
+                        onKeyUp={handleResizeHeight}
+                        isMaxLength={field.value && field.value.length>=200}
+                        onChange={e=> {field.onChange(e.target.value); textarea.current.style.height = textarea.current.scrollHeight + 'px';}} 
+                      />
+                      <SendButton type='submit' variant={field.value ? 'primary' : 'empty'} disabled={!field.value || !data}><SendMessageIcon/></SendButton>
+                    </InputWrapper>
+                  </>
+                )}
               />
-
-            </TextAreaWrapper>
-
-            <button width={'7rem'} handleOnClick={handleSubmit} text={<SendMessageIcon/>} btnColor={`var(--main-color)`} />
-          </Footer>
+          </form>
         </PhoneWrapper>
         <TextArea>
           <ChatBubbleIcon/>
@@ -136,7 +104,6 @@ const Container = styled.div`
   border-radius: 2.5rem;  
   padding: 2.5rem 2.5rem 0 2.5rem;
   gap: 6rem;
-
 `
 
 const PhoneWrapper = styled.div`
@@ -148,6 +115,9 @@ const PhoneWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
 
+  form{
+    padding: 1rem;
+  }
 `
 
 const Header = styled.div`
@@ -172,10 +142,10 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+
   p{
     color: var(--font-gray-3);
   }
-
 `
 
 const MessageArea = styled.div`
@@ -198,6 +168,7 @@ const Bubble = styled.div`
   text-align: left;
   border-radius: 1.25rem;
   position: relative;
+
   p{
     color: white;
     padding: 1rem;
@@ -220,19 +191,11 @@ const TextArea = styled.div`
   }
 `
 
-const Footer = styled.form`
+const InputWrapper = styled.div`
   display: flex;
   gap: 0.5rem;
-  padding: 1rem;
+  margin-top: 0.25rem;
   align-items: flex-end;
-`
-
-const TextAreaWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  width: 100%;
-
 `
 
 const ValidText = styled.div`
@@ -250,6 +213,8 @@ const ValidText = styled.div`
 
 const FormInput = styled.textarea`
   width: 100%;
+  height: fit-content;
+  min-height: 4rem;
   box-sizing: border-box;
   padding: 1rem;
   border: none;
@@ -265,6 +230,9 @@ const FormInput = styled.textarea`
   &::placeholder {
     color: var(--font-gray-1);
   }
-
 `
 
+const SendButton = styled(Button)`
+  width: 7rem;
+  padding: 0.75rem 0;
+`
