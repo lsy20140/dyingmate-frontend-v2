@@ -24,8 +24,10 @@ export default function Button({
 }
 
 const StyledButton = styled.button`
+  width: 100%;
 ${props => variantStyles[props.variant]}
   border: none;
+  border-radius: 1.25rem;
 
   &:hover,
   &:active {
