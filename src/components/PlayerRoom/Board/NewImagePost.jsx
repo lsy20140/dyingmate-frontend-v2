@@ -33,6 +33,6 @@ const PostImage = styled.div`
   background-image: url(${PostImageSrc});
   background-repeat: no-repeat;
   width: 100%;
-  height: 100%;
+  height: 80%;
   box-sizing: border-box;
 `

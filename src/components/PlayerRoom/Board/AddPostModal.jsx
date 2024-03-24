@@ -1,26 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import {IoIosClose} from 'react-icons/io'
-import IconStyledButton from '../../ui/IconStyledButton'
 import {PiImageSquareBold} from 'react-icons/pi'
-import { useAuthContext } from '../../../contexts/AuthContext'
-import axios from 'axios'
-import { getRandomPos } from '../../../apis/utils/PlayerRoom/getRandomPosition'
+import { getRandomXPos, getRandomYPos } from 'utils/generateRandomPosition'
+import { useAddFileBucketlist, useAddTextBucketlist } from 'hooks/useBucketlist'
+import Button from 'components/common/Button/Button'
 
-const MAX_X = 1000
-const MIN_X = 0
-
-const MAX_Y = 500
-const MIN_Y = 0
-
-export default function AddPostModal({isImagePost, setOpenModal, setUpdate}) {
+export default function AddPostModal({isImagePost, setOpenModal}) {
   const [post, setPost] = useState({})
   const [photo, setPhoto] = useState()
   const formData = new FormData()
-  const {token} = useAuthContext();
-  const baseUrl = 'https://dying-mate-server.link'
-  const [randomX, setRandomX] = useState(0)
-  const [randomY, setRandomY] = useState(0)
+
+  const {mutate: addFileBucketlist} = useAddFileBucketlist()
+  const {mutate: addTextBucketlist} = useAddTextBucketlist()
 
   const handleChange = (e) => {
     const {name, value, files} = e.target
@@ -30,64 +22,21 @@ export default function AddPostModal({isImagePost, setOpenModal, setUpdate}) {
       setPost((post) => ({...post, 'photo': files[0]}))
       return
     }
-    setPost((post) => ({...post, 'content': value, 'memoX': randomX, 'memoY': randomY}))
-
-    console.log("post", post)
+    setPost((post) => ({...post, 'content': value, 'memoX': getRandomXPos(), 'memoY': getRandomYPos()}))
   }
 
-  const closeModal = () => {
-    setOpenModal(false)
-  }
-
-  const handleFileSubmit = (e) => {
-
+  const handleFileSubmit = () => {
     for ( const key in post ) {
       formData.append(key, post[key]);
     }
-
-    axios.post(`${baseUrl}/bucketlist/add/file`, formData, {
-      headers: {
-        'Content-Type' : 'multipart/form-data',
-        'Authorization': `Bearer ${token}`,
-      },
-      withCredentials: true,
-    })
-    .then((response) => {
-      console.log(response)
-      setUpdate()
-      
-    }).catch(function (error) {
-        // 오류발생시 실행
-      console.log(error)
-    })
-    closeModal()
-
+    addFileBucketlist(formData)
+    setOpenModal(false)
   }
 
-  const handleContentSubmit = (e) => {
-    axios.post(`${baseUrl}/bucketlist/add/content`, post, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-      withCredentials: true,
-    })
-    .then((response) => {
-      console.log(response)
-      setUpdate()
-      
-    }).catch(function (error) {
-        // 오류발생시 실행
-      console.log(error)
-    })
-    closeModal()
-
+  const handleContentSubmit = () => {
+    addTextBucketlist(post)
+    setOpenModal(false)
   }
-
-  useEffect(() => {
-    setRandomX(getRandomPos(MAX_X, MIN_X))
-    setRandomY(getRandomPos(MAX_Y, MIN_Y))
-  },[])
-
 
   return (
     <>
@@ -101,7 +50,7 @@ export default function AddPostModal({isImagePost, setOpenModal, setUpdate}) {
               <p>버킷리스트 내용을 작성하세요.</p>
               <p>해야하는 목록에 대한 내용을 작성하고 보드에 붙여보세요.</p>
             </Header>
-            <Main method='POST'>
+            <Main onSubmit={isImagePost ? handleFileSubmit : handleContentSubmit}>
               <FormInput 
                 type={"text"}
                 id='content' 
@@ -120,21 +69,18 @@ export default function AddPostModal({isImagePost, setOpenModal, setUpdate}) {
                   </PhotoNameBox>
                 }
                 {isImagePost && 
-                  <UploadBox>
+                  <UploadButton variant='secondary'>
                     <p>+ 파일 추가하기</p>
                     <input type="file" name='photo' accept='.png, .jpg,image/*' onChange={handleChange}/>
-                  </UploadBox>
+                  </UploadButton>
                 }
-                <IconStyledButton width={'100%'} text={'생성하기'} fontSize={'1.25rem'} fontWeight={'700'} color={'white'} btnColor={'var(--main-color)'} handleOnClick={isImagePost ? handleFileSubmit : handleContentSubmit} />
+                <SubmitButton type='submit' variant='primary'>생성하기</SubmitButton>
               </ButtonWrapper>
             </Main>
           </Wrapper>
         </ModalContainer>
       </Overlay>
-
     </>
-
-
   )
 }
 
@@ -207,7 +153,7 @@ const Main = styled.form`
 
 const FormInput = styled.textarea`
   width: 100%;
-  height: 10rem;
+  height: 8rem;
   box-sizing: border-box;
   padding: 1rem;
   outline: none;
@@ -246,20 +192,14 @@ const PhotoNameBox = styled.div`
   }
 `
 
-const UploadBox = styled.div`
-  width: 100%:
+const UploadButton = styled(Button)`
   height: 3.75rem;
-  background-color: var(--main-color-2);
-  border-radius: 0.75rem;
-  color: white;
-  padding: 1rem 0;
-  font-weight: 500;
+  padding: 0.75rem 0;
   font-size: 1.25rem; 
   justify-content: center;
   display: flex;
   align-items: center;
   position: relative;
-  cursor: pointer;
 
   input[type="file"] {
     width: 100%;
@@ -269,5 +209,13 @@ const UploadBox = styled.div`
     border: 0;
     z-index: 999;
     opacity: 0;
+    cursor: pointer;
   }
+`
+
+const SubmitButton = styled(Button)`
+  font-weight: 700;
+  font-size: 1.25rem;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
 `

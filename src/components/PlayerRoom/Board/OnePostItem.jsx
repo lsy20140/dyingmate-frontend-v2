@@ -1,44 +1,31 @@
-import React from 'react'
-import {ReactComponent as Pin} from '../../../../assets/img/PlayerRoom/pin.svg'
+import React, { useState } from 'react'
+import {ReactComponent as Pin} from 'assets/img/PlayerRoom/pin.svg'
 import styled from 'styled-components'
 import Draggable from 'react-draggable';
-import axios from 'axios'
-import { useAuthContext } from '../../../contexts/AuthContext';
+import { useMovePosition } from 'hooks/useBucketlist';
 
-export default function OnePostItem({memo, memo:{content, photo, memoX, memoY, isComplete}}) {
-  const baseUrl = 'https://dying-mate-server.link'
-  const {token} = useAuthContext();
+export default function OnePostItem({memo, memo:{bucketlistId:id, content, photo, memoX, memoY, isComplete}}) {
+  const [pos, setPos] = useState({x : memoX, y : memoY})
+  const {mutate: movePosition} = useMovePosition()
+
 
   const trackPos = (data) => {    
-    axios.patch(
-      `${baseUrl}/bucketlist/move/1?x=${memoX+data.lastX}&y=${memoY+data.lastY}`, {}, 
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-        withCredentials: true,
-      })
-    .then((res) => {
-      console.log(res)        
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+    setPos({x: data.x, y: data.y})
+    const x = pos.x
+    const y = pos.y
+    movePosition({id, x, y})
   }
-
-
-
+  
   return (
     <>
       
-      <Draggable onStop={(e, data) => trackPos(data)}>
+      <Draggable position={{x: pos.x, y: pos.y}} onStop={(_, data) => trackPos(data)}>
         <PostItem hasPhoto={photo !== null} memoX={memoX} memoY={memoY}>
           <HeaderPin><Pin/></HeaderPin>
           { photo &&
             <PhotoWrapper>
               {/* <img src={photo && URL.createObjectURL(photo) } /> */}
               <img src={photo} />
-
             </PhotoWrapper>
           }
           <ContentWrapper iscomplete={isComplete}>
@@ -65,7 +52,6 @@ const PostItem = styled.div`
   align-items: center;
   top: ${(props) => props.memoY}px;
   left: ${(props) => props.memoX}px;
-
 `
 
 const HeaderPin = styled.div`

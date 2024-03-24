@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {ReactComponent as Pin} from '../../../../assets/img/PlayerRoom/pin.svg'
+import {ReactComponent as Pin} from 'assets/img/PlayerRoom/pin.svg'
 
 export default function NewTextPost({handleOnClick}) {
 
@@ -22,5 +22,4 @@ const HeaderPin = styled.div`
   position: absolute;
   top: 0;
   width: 100%;
-  
 `
