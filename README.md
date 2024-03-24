@@ -48,6 +48,7 @@ Dying  Mate는 죽음을 본인과는 상관없는 먼 미래로만 여기는 �
   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white">
   <img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white">
   <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white">
+  <img src="https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white">
 </div>
 <br>
 <img src="https://img.shields.io/badge/threejs-black?style=for-the-badge&logo=three.js&logoColor=white">
