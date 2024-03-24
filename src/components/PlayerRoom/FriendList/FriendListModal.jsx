@@ -1,108 +1,58 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { FriendIcon } from 'assets/icons'
 import {IoIosClose} from 'react-icons/io'
 import OneFriendItem from './OneFriendItem'
 import OneRequestItem from './OneRequestItem'
-import axios from 'axios'
 import OneSearchItem from './OneSearchItem'
-import { useAuthContext } from '../../../contexts/AuthContext'
-import { addFriendSuccess } from '../../ui/ToastMessage'
-import { getFriendList } from '../../../apis/api/PlayerRoom/friendList'
+import { useAcceptFriend, useGetFriendList, useGetSearchUsers, useRefuseFriend, useRequestFriend } from 'hooks/useFriend'
+import ModalOverlay from 'components/FriendRecord/ModalOverlay'
 
 
 export default function FriendListModal({setFriendListModal}) {
   const [searchInput, setSearchInput] = useState('')  
-  const [friendList, setFriendList] = useState([])
-  const [requestList, setRequestList] = useState([])
-  const [searchList, setSearchList] = useState([])
-  const [update, setUpdate] = useState(false)
-  
-  const baseUrl = 'https://dying-mate-server.link'
-  const {token} = useAuthContext()
+  const [open, setOpen] = useState(false)
+  const [friendId, setFriendId] = useState('')
+  const [filtered, setFiltered] = useState([])
+
+  const {data: friends} = useGetFriendList()
+  const {data: users} = useGetSearchUsers()
+  const {mutate: requestFriend} = useRequestFriend()
+  const {mutate: acceptRequest} = useAcceptFriend()
+  const {mutate: refuseRequest} = useRefuseFriend()
 
 
   const handleOnChange = (e) => {
     setSearchInput(e.target.value)
   }
 
-
-  useEffect(() => {
-    axios.get(`${baseUrl}/friend/search`,{
-      headers: {Authorization: 'Bearer ' + token},
-    }, )
-    .then((res) => {
-      setSearchList(prev => [...prev, ...res.data.data])
-    })
-  },[])
-
-  useEffect(() => {
-    getFriendList().then((res) => {
-      setFriendList([...res.data.friendListResponseList])
-      setRequestList([...res.data.friendRequestResponseList])
-    })
-  },[update])
-
-  const filteredList = searchList && searchList.filter((item) => {
-    if(searchInput !== '' && item.friendEmail && item.friendEmail.toLowerCase().includes(searchInput.toLowerCase())){ 
-      return item
+  const getFiltered = () => {
+    if(users) {
+      setFiltered(users.filter((item) => {
+        if(searchInput !== '' && item.friendEmail && item.friendEmail.toLowerCase().includes(searchInput.toLowerCase())){ 
+          return item
+        }
+      }))
+      console.log(filtered)
     }
-  })
+  }
 
-  const handleAddFriend = (friendEmail, friendName, friendProfile) => {
-    axios
-    .post(`${baseUrl}/friend/add`, {
+  const handleAddFriend = async (friendEmail, friendName, friendProfile) => {
+    await requestFriend({
       "friendEmail": friendEmail,
       "friendName": friendName,
       "friendProfile": friendProfile,
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      withCredentials: true,
     })
-    .then((response) => {
-      addFriendSuccess()   
-      setSearchInput('')
-      setUpdate((prev) => !prev)
-    }).catch(function (error) {
-        // 오류발생시 실행
-        console.log(error)
-    })
+    setSearchInput('')
   }
 
   const handleAcceptFriend = (acceptEmail) => {
-    axios
-    .post(`${baseUrl}/friend/accept?acceptEmail=${acceptEmail}`, {}, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      withCredentials: true,
-    })
-    .then((response) => {
-      setUpdate((prev) => !prev)     
-    }).catch(function (error) {
-        // 오류발생시 실행
-      console.log(error.message)
-    })
+    acceptRequest(acceptEmail)
   }
 
   const handleRefuseFriend = (refuseEmail) => {
-    axios
-    .delete(`${baseUrl}/friend/refuse?refuseEmail=${refuseEmail}`, {}, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      withCredentials: true,
-    })
-    .then((response) => {
-      setUpdate((prev) => !prev)
-    }).catch(function (error) {
-        // 오류발생시 실행
-      console.log(error.message)
-    })
+    refuseRequest(refuseEmail)
   }
-
 
   return (
     <>
@@ -117,13 +67,12 @@ export default function FriendListModal({setFriendListModal}) {
         </Header>  
         <SearchContainer>
           <InputWrapper>
-            <SearchInput onChange={handleOnChange} placeholder='사용자의 이름을 입력하세요.' value={searchInput ?? ''}/>
+            <SearchInput onChange={handleOnChange} onKeyDown={getFiltered} onKeyUp={getFiltered} placeholder='사용자의 이름을 입력하세요.' value={searchInput ?? ''}/>
           </InputWrapper>
           {searchInput !== '' &&
             <SearchList>
-              {filteredList && filteredList.length > 0 ?
-                filteredList.map(data => {
-                  console.log("data",data)
+              {filtered && filtered.length > 0 ?
+                filtered.map(data => {
                   const {friendEmail, friendName, friendProfile} = data
                   return <OneSearchItem isExist={true} email={friendEmail} name={friendName} photo={friendProfile} handleAddFriend={() => handleAddFriend(friendEmail, friendName, friendProfile)}/>
                 })    
@@ -135,15 +84,15 @@ export default function FriendListModal({setFriendListModal}) {
         <ListContainer>
           <ListWrapper>
             <p>친구 목록</p>
-            {friendList && friendList.map((data, idx) => {
+            {friends && friends.friendListResponseList.map((data, idx) => {
               const {email, name, photo} = data
-              return <OneFriendItem key={idx} userId={email} username={name} photoNum={photo}/>
-            }
-          )}
+              return <OneFriendItem key={idx} userId={email} username={name} photoNum={photo} setOpen={() => setOpen(true)} setFriendId={() => setFriendId(email)}/>
+              }
+            )}
           </ListWrapper>
           <ListWrapper>
             <p>친구 요청</p>
-            {requestList && requestList.map((data, idx) => {
+            {friends && friends.friendRequestResponseList.map((data, idx) => {
               const {email, name, photo} = data
               return <OneRequestItem 
                         key={idx} 
@@ -157,11 +106,9 @@ export default function FriendListModal({setFriendListModal}) {
           </ListWrapper>
         </ListContainer>
       </Container>
-      
       </Overlay>
-    <ToastContainer />
+    {open && <ModalOverlay setOpen={() => setOpen()} email={friendId}/>}
     </>
-
   )
 }
 
@@ -194,7 +141,6 @@ const Header = styled.div`
     font-size: 2.5rem;
     cursor: pointer;
   }
-
 `
 
 const HeaderTitle = styled.div`
@@ -242,7 +188,9 @@ const SearchList = styled.div`
   position: absolute;
   top: 3.2rem;
   width: 100%;
-  height: fit-content;  
+  height: fit-content;
+  max-height: 30rem;
+  overflow: auto;  
   border-radius: 0.75rem;
   background-color: white;
   box-sizing: border-box;
