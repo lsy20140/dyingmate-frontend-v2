@@ -1,39 +1,33 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { MoonIcon } from 'assets/icons'
-import axios from 'axios'  
-import { useAuthContext } from 'contexts/AuthContext'
 import { useDiaryContext } from 'contexts/DiaryContext'
-import { saveSuccess } from 'components/ui/ToastMessage'
 import GraveStoneSrc from 'assets/img/PlayerRoom/gravestone.webp'
 import UploadFrameSrc from 'assets/img/PlayerRoom/upload_frame.webp'
+import { useGetDiary, useSaveDiary } from 'hooks/useDiary'
 
 export default function StepFinal() {
   const formData = new FormData()
-  const {token} = useAuthContext()
+  const [epitaph, setEpitaph] = useState('')
+  const [photo, setPhoto] = useState()
+
   const {diary} = useDiaryContext()
-  const baseUrl = 'https://dying-mate-server.link'
+  const {data} = useGetDiary()
+  const {mutate: saveDiary} = useSaveDiary()
 
   useEffect(() => {
+    if(diary){
+      setEpitaph(diary.epitaph)
+      setPhoto(diary.portrait_photo)
+    }else{
+      setEpitaph(data.epitaph)
+      setPhoto(data.portrait_photo)
+    }
+
     for ( const key in diary ) {
       formData.append(key, diary[key]);
     }
-    axios
-    .post(`${baseUrl}/funeral/save`, formData, {
-      headers: {
-        'Content-Type' : 'multipart/form-data',
-        'Authorization': `Bearer ${token}`,
-      },
-      withCredentials: true,
-    })
-    .then((res) => {
-      console.log(res)
-      saveSuccess()
-        
-    }).catch(function (error) {
-        // 오류발생시 실행
-        console.log(error.message)
-    })
+    saveDiary(formData)
   },[])
 
   return (
@@ -49,14 +43,12 @@ export default function StepFinal() {
         </Text>
       </TextArea>
       <Result>
-        <GraveStone><p>{diary.epitaph}</p></GraveStone>
+        <GraveStone><p>{epitaph && epitaph}</p></GraveStone>
         <UploadBox>
           <img src={UploadFrameSrc}/>
-          <img src={diary && URL.createObjectURL(diary.portrait_photo) } />
+          <img src={photo && (photo.includes('https') ? photo : URL.createObjectURL(photo))} />
         </UploadBox>
       </Result>
-
-
     </Content>
   )
 }

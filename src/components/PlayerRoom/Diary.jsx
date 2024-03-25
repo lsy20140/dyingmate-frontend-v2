@@ -6,17 +6,11 @@ import StepThree from './Diary/StepThree'
 import StepFinal from './Diary/StepFinal'
 import { ArrowLeftIcon, ArrowRightIcon } from 'assets/icons'
 import ProgressBar from './Diary/ProgressBar'
-import axios from 'axios'
-import { useDiaryContext } from 'contexts/DiaryContext'
-import { useAuthContext } from 'contexts/AuthContext'
-import {ToastContainer} from 'react-toastify'
+import { useGetDiary } from 'hooks/useDiary'
 
 export default function Diary() {
   const [comp, setComp] = useState()
   const [curIdx, setCurIdx] = useState(1)
-  const {token} = useAuthContext()
-  const baseUrl = 'https://dying-mate-server.link'
-  const {diary, setDiary} = useDiaryContext()
 
   const handleIndex = (side, e) => {
     if(side === 'prev'){
@@ -35,32 +29,19 @@ export default function Diary() {
     }
   }
 
-  useEffect(() =>  {
-    axios.get(`${baseUrl}/funeral/select`, {
-      headers: {Authorization: 'Bearer ' + token},
-    }, )
-    .then(function(res){
-      // setDiary(() => ({...res.data.data}))
-      console.log("res", res)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  },[])
-
   useEffect(() => {
     switch(curIdx) {
       case 1:
-        setComp(<StepOne method={diary.method}/>)
+        setComp(<StepOne/>)
         break;
       case 2:
-        setComp(<StepTwo epitaph={diary.epitaph}/>)
+        setComp(<StepTwo/>)
         break;
       case 3:
-        setComp(<StepThree photo={diary.portrait_photo}/>)
+        setComp(<StepThree/>)
         break;
       case 4:
-        setComp(<StepFinal epitaph={diary.epitaph} photo={diary.portrait_photo}/>)
+        setComp(<StepFinal/>)
         break;
     }
   },[curIdx])
@@ -76,7 +57,6 @@ export default function Diary() {
         </MainComponent>
         <ProgressBar curIdx={curIdx}/>
       </Container>
-      <ToastContainer/>
     </>
   )
 }
