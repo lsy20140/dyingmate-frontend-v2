@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import UserProfile from '../../common/UserProfile'
 
-export default function OneFriendItem({userId, username, photoNum}) {
+export default function OneFriendItem({userId, username, photoNum, setOpen, setFriendId}) {
   return (
     <ItemBox>
       <UserInfo>
@@ -12,7 +12,7 @@ export default function OneFriendItem({userId, username, photoNum}) {
           <p>{username}</p>
         </IdNameText>
       </UserInfo>
-      <VisitButton>방문하기</VisitButton>
+      <VisitButton onClick={() => {setOpen(true); setFriendId(userId)} }>기록보기</VisitButton>
     </ItemBox>
   )
 }
@@ -60,6 +60,5 @@ const VisitButton = styled.button`
   font-weight: 700;
   border: none;
   color: white;
-
 `
 
