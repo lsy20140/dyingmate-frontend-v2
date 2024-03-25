@@ -1,20 +1,16 @@
-  //Camera.tsx
   import { OrbitControls } from "@react-three/drei";
   import { useThree } from "@react-three/fiber";
   import { useEffect, useRef } from "react";
   import { Vector3 } from "three";
   import gsap from 'gsap'
 
-  
    const CameraControls = ({position, target, handleShowText}) => {
-     //Initialize camera controls
      const {
        camera,
        gl: { domElement },
      } = useThree();
      const ref = useRef(null);
 
-     // Determines camera up Axis
      camera.up = new Vector3(0, 1, 0);
 
      function cameraAnimate() {
@@ -55,7 +51,6 @@
       cameraAnimate();
     }, [target, position]);
 
-     // return the controls object   
      return (
        <OrbitControls
           ref={ref}
