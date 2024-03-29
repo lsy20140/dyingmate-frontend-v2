@@ -38,29 +38,6 @@ Dying  Mate는 죽음을 본인과는 상관없는 먼 미래로만 여기는 �
 ### #인터렉티브 웹
 세 인물의 방을 모두 방문하고 나면 나의 방에서 웰다잉 설계와 관련된 기능들을 수행할 수 있습니다.
 
-<br>
-
-## ⚒️ 기술 스택
-
-<img src="https://img.shields.io/badge/yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white">
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
-<div display='flex'>
-  <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white">
-  <img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white">
-  <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white">
-  <img src="https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white">
-</div>
-<br>
-<img src="https://img.shields.io/badge/threejs-black?style=for-the-badge&logo=three.js&logoColor=white">
-
-<img src="https://img.shields.io/badge/styled%20components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white">
-
-<div display='flex'>
-  <img src="https://img.shields.io/badge/Amazon%20S3-569A31?style=for-the-badge&logo=AmazonS3&logoColor=white">
-  <img src="https://img.shields.io/badge/Amazon%20Route53-8C4FFF?style=for-the-badge&logo=AmazonRoute53&logoColor=white">
-</div>
-
-
 
 
 <br>
@@ -95,3 +72,157 @@ Dying  Mate는 죽음을 본인과는 상관없는 먼 미래로만 여기는 �
 ![수락 열람](https://github.com/lsy20140/dyingmate-frontend/assets/68267094/2935cac0-f185-4d44-aa22-a47e14e367cb)
 
 ![엔딩보기](https://github.com/lsy20140/dyingmate-frontend/assets/68267094/485137ba-02c0-4cec-8f10-14261f201614)
+
+<br>
+
+## ⚒️ 기술 스택
+
+<img src="https://img.shields.io/badge/yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white">
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+<div display='flex'>
+  <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white">
+  <img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white">
+  <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white">
+  <img src="https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white">
+</div>
+<br>
+<img src="https://img.shields.io/badge/threejs-black?style=for-the-badge&logo=three.js&logoColor=white">
+
+<img src="https://img.shields.io/badge/styled%20components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white">
+
+<div display='flex'>
+  <img src="https://img.shields.io/badge/Amazon%20S3-569A31?style=for-the-badge&logo=AmazonS3&logoColor=white">
+  <img src="https://img.shields.io/badge/Amazon%20Route53-8C4FFF?style=for-the-badge&logo=AmazonRoute53&logoColor=white">
+</div>
+
+<br>
+<br>
+
+## 📁 폴더 구조
+```
++---public 💡 favicon, index.html
+\---src
+    |   App.css
+    |   App.jsx
+    |   Camera.jsx
+    |   EndingCamera.jsx
+    |   index.css
+    |   index.js
+    |
+    +---api 💡 인스턴스, 기능별 api
+    +---assets
+    |   +---icons 💡svg->js 변환
+    |   |   \---raw 💡svg 원본 파일
+    |   |
+    |   \---img 💡 webp, svg 파일
+    |       +---Map 
+    |       +---PlayerRoom
+    |       \---Profile
+    |
+    +---components
+    |   |   EndingText.jsx
+    |   |   MainBackground.jsx
+    |   |   MainExperience.jsx
+    |   |   MapOverlay.jsx
+    |   |   Message.jsx
+    |   |
+    |   +---common
+    |   |   +---Button
+    |   |   |       Button.jsx
+    |   |   |       styles.js
+    |   |   |
+    |   |   +---NextButton
+    |   |   |       NextButton.jsx
+    |   |   |
+    |   |   \---UserProfile
+    |   |           index.jsx
+    |   |
+    |   +---FriendRecord
+    |   |       Board.jsx
+    |   |       Diary.jsx
+    |   |       FriendRecord.jsx
+    |   |       Loading.jsx
+    |   |       ModalOverlay.jsx
+    |   |       NoRecord.jsx
+    |   |       Phone.jsx
+    |   |       Will.jsx
+    |   |
+    |   +---LoginSignup
+    |   |       LoginForm.jsx
+    |   |       SignUpForm.jsx
+    |   |       SocialLogin.jsx
+    |   |
+    |   +---Map
+    |   |       MapItem.jsx
+    |   |
+    |   +---models 💡gltf->jsx로 변환한 3d 에셋 파일(by gltfjsx)
+    |   |
+    |   +---PlayerRoom
+    |   |   |   Board.jsx
+    |   |   |   Desktop.jsx
+    |   |   |   Diary.jsx
+    |   |   |   ModalOverlay.jsx
+    |   |   |   Phone.jsx
+    |   |   |   Shelf.jsx
+    |   |   |   Will.jsx
+    |   |   |
+    |   |   +---Board
+    |   |   |       AddPostModal.jsx
+    |   |   |       NewImagePost.jsx
+    |   |   |       NewTextPost.jsx
+    |   |   |       OnePostItem.jsx
+    |   |   |
+    |   |   +---Desktop
+    |   |   |       OneCommentItem.jsx
+    |   |   |
+    |   |   +---Diary
+    |   |   |       MethodExplain.jsx
+    |   |   |       MethodItem.jsx
+    |   |   |       ProgressBar.jsx
+    |   |   |       ProgressBarOneStep.jsx
+    |   |   |       StepFinal.jsx
+    |   |   |       StepOne.jsx
+    |   |   |       StepThree.jsx
+    |   |   |       StepTwo.jsx
+    |   |   |
+    |   |   \---FriendList
+    |   |           FriendListModal.jsx
+    |   |           ModalButton.jsx
+    |   |           OneFriendItem.jsx
+    |   |           OneRequestItem.jsx
+    |   |           OneSearchItem.jsx
+    |   |
+    |   +---SetUp
+    |   |       ResetAlertModal.jsx
+    |   |       SettingModal.jsx
+    |   |
+    |   +---Shelf
+    |   |       ColumnItem.jsx
+    |   |
+    |   \---ui
+    |           CharMainDialog.jsx
+    |           DialogBox.jsx
+    |           EnterRoomDialog.jsx
+    |
+    +---constants 
+    |       formMessages.js
+    |       stage.js
+    |       toastMessages.js
+    |
+    +---contexts 💡 전역 상태를 위한 context
+    +---data 💡 스토리 스크립트 저장
+    +---fonts
+    |       Font.css
+    |       Nanum_GangBuJangNimCe.ttf
+    |       UnPilgi.woff
+    |
+    +---hooks 💡 custom hooks 저장
+    +---pages 💡 page 컴포넌트 저장
+    +---styles
+    |   \---theme
+    |           colors.js
+    |
+    \---utils
+            generateRandomPosition.js
+            getDate.js
+```
