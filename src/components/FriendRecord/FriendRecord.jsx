@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import StepOne from './Diary/StepOne'
-import StepTwo from './Diary/StepTwo'
-import StepThree from './Diary/StepThree'
-import StepFinal from './Diary/StepFinal'
-import { ArrowLeftIcon, ArrowRightIcon } from 'assets/icons'
-import ProgressBar from './Diary/ProgressBar'
-import { useGetDiary } from 'hooks/useDiary'
+import Will from './Will';
+import Phone from './Phone';
+import Diary from './Diary';
+import Board from './Board';
+import styled from 'styled-components';
+import { ArrowLeftIcon, ArrowRightIcon } from 'assets/icons';
 
-export default function Diary() {
+export default function FriendRecord({email}) {
   const [comp, setComp] = useState()
   const [curIdx, setCurIdx] = useState(1)
 
@@ -32,16 +30,16 @@ export default function Diary() {
   useEffect(() => {
     switch(curIdx) {
       case 1:
-        setComp(<StepOne/>)
+        setComp(<Will email={email}/>)
         break;
       case 2:
-        setComp(<StepTwo/>)
+        setComp(<Phone email={email}/>)
         break;
       case 3:
-        setComp(<StepThree/>)
+        setComp(<Diary email={email}/>)
         break;
       case 4:
-        setComp(<StepFinal/>)
+        setComp(<Board email={email}/>)
         break;
     }
   },[curIdx])
@@ -50,16 +48,18 @@ export default function Diary() {
   return (
     <>
       <Container>
-        <MainComponent>
+        <Main>
           <Button onClick={(e)=>{handleIndex('prev', e)}} style={(curIdx === 1) ? {opacity: 0} : {}}><ArrowLeftIcon/></Button>
-          {comp}
+          <MainComponent>
+            {comp}
+          </MainComponent>
           <Button onClick={(e)=>{handleIndex('next', e)}} style={(curIdx === 4) ? {opacity: 0} : {}}><ArrowRightIcon/></Button>
-        </MainComponent>
-        <ProgressBar curIdx={curIdx}/>
+        </Main>
       </Container>
     </>
   )
 }
+
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -67,22 +67,31 @@ const Container = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   border-radius: 2.5rem;  
-  padding: 2rem 8rem 2.5rem 8rem;
+  padding: 0 8rem 2.5rem 8rem;
   color: white;
   gap: 4rem;
 `
 
-const MainComponent = styled.div`
+const Main = styled.div`
  display: flex;
  align-items: center;
  justify-content: center;  
+ height: 100%;
 
  & > * {
   flex-shrink: 0;
  }
+`
+
+const MainComponent = styled.div`
+  width: 80rem;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
 `
 
 

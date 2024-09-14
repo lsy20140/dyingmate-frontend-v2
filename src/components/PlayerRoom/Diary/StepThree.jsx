@@ -4,60 +4,47 @@ import { MoonIcon } from 'assets/icons'
 import UploadFrameSrc from 'assets/img/PlayerRoom/upload_frame.webp'
 import { useDiaryContext } from 'contexts/DiaryContext'
 import {FiFolderPlus} from 'react-icons/fi'
-import { useAuthContext } from 'contexts/AuthContext'
-import axios from 'axios'
-import { editSuccess } from 'components/ui/ToastMessage'
+import {  useGetDiary, useUpdateDiary } from 'hooks/useDiary'
 
-export default function StepThree({photo}) {
+export default function StepThree() {
   const fileInput = useRef(null)
   const [selectImg, setSelectImg] = useState()
   const {diary, setDiary} = useDiaryContext()
-  const {token} = useAuthContext()
-  const baseUrl = 'https://dying-mate-server.link'
   const formData = new FormData()
+  const {data} = useGetDiary()
+  const {mutate: updateDiary} = useUpdateDiary()
 
   const handleChange = async (e) => {
-    const {name, files} = e.target;
+    const {files} = e.target;
 
-    if(name === 'file') {
+    // 기존에 저장된 영정사진이 있는 경우
+    if(data && data.portrait_photo){
+      for ( const key in data ) {
+        formData.append(key, data[key]);
+      }
+      formData.set('portrait_photo', files[0])
+      updateDiary(formData)
+    }else{ // 최초로 저장하는 경우
       setSelectImg(files && files[0]);
       setDiary((data) => ({...data, 'portrait_photo': files[0]}))
-      return;
-    }
-
-    if(photo){
-      formData.append('portrait_photo', files[0])
-      formData.append('_method', 'PATCH');
-
-      axios
-      .post(`${baseUrl}/funeral/modify`, formData, {
-        headers: {
-          'Content-Type' : 'multipart/form-data',
-          'Authorization': `Bearer ${token}`,
-        },
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log(res)
-        editSuccess()
-          
-      }).catch(function (error) {
-          // 오류발생시 실행
-          console.log(error)
-      })
     }
   };
 
   useEffect(() => {
-    setSelectImg(photo)
+    if(data && data.portrait_photo){
+      setSelectImg(data.portrait_photo)
+    }else{
+      setSelectImg(diary && diary.portrait_photo)
+    }
   },[])
+
 
   return (
     <Content>
       <UploadBox>
         <img src={UploadFrameSrc}/>
         {selectImg ? 
-          <img src={selectImg && URL.createObjectURL(selectImg) } />
+          <img src={selectImg && (selectImg.includes('https') ? selectImg : URL.createObjectURL(selectImg))} />
           :
           <SelectFileBox>
             <FiFolderPlus/>

@@ -1,53 +1,30 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { ThumbUpIcon } from 'assets/icons'
 import OneCommentItem from './Desktop/OneCommentItem'
-import { useAuthContext } from 'contexts/AuthContext'
-import axios from 'axios'
-import { getCommentList } from '../../apis/api/PlayerRoom/community'
-import { nullWarning } from '../ui/ToastMessage'
+import { useGetAllComments, usePostComment } from 'hooks/useCommunity'
+import { useToast } from 'hooks/useToast'
+import { TOAST_MESSAGES } from 'constants/toastMessages'
 
 export default function Desktop() {
   const [isOpen, setIsOpen] = useState(false)
   const [content, setContent] = useState('')
-  const {token} = useAuthContext()
-  const baseUrl = 'https://dying-mate-server.link'
-  const [update, setUpdate] = useState(false)
-  const [commentList, setCommentList] = useState([])
+  const {data: comments} = useGetAllComments()
+  const {mutate: postComment} = usePostComment()
 
   const handleChange = (e) => {
     setContent(e.target.value)
   }
 
-  const handleSubmit = (e) => {   
+  const handleSubmit = () => {   
     if(content === '') {
-      nullWarning()
+      useToast(TOAST_MESSAGES.INPUT_REQUIRED)
       return 
     }
-    axios
-    .post(`${baseUrl}/community/register`, {content: content}, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      withCredentials: true,
-    })
-    .then((response) => {
-      console.log(response)
-      setIsOpen(false)
-      setContent('')
-      setUpdate((prev) => !prev)
-    }).catch(function (error) {
-        // 오류발생시 실행
-        console.log(error.message)
-    })
+    postComment(content)
+    setIsOpen(false)
+    setContent('')
   }
-
-  useEffect(() => {
-    getCommentList().then((res) => {
-      console.log("res", res)
-      setCommentList([...res.data])
-    })
-  },[update])
 
   return (
     <Overlay>
@@ -72,7 +49,7 @@ export default function Desktop() {
                 id='content' 
                 name='content' 
                 value={content ?? ''}
-                onChange={handleChange}
+                onChange={(e) => handleChange(e)}
                 placeholder='내용을 입력하세요.' 
                 spellCheck="false"
                 required
@@ -90,8 +67,8 @@ export default function Desktop() {
             </TopicBox>
           </TopicWrapper>
           <CommentWrapper>
-            {commentList && commentList.length > 0 &&
-            commentList.map(data => {
+            {comments && comments.length > 0 &&
+            comments.map(data => {
               const {commentId, profile, name, content, creationTime, likeNum} = data
               return <OneCommentItem key={commentId} commentId={commentId} profile={profile} name={name} content={content} likeCount={likeNum} date={creationTime}/>
             })  

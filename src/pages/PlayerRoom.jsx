@@ -5,13 +5,12 @@ import { useHelper, useProgress } from "@react-three/drei";
 import { CameraControls } from '../Camera';
 import { usePlay } from 'contexts/Play';
 import ModalOverlay from 'components/PlayerRoom/ModalOverlay';
-import FriendListModal from 'components/PlayerRoom/FriendListModal';
+import FriendListModal from 'components/PlayerRoom/FriendList/FriendListModal';
 import ModalButton from 'components/PlayerRoom/FriendList/ModalButton';
 import { PlayerRoomModel, WillModel, BoardModel, PhoneModel, DiaryModel, ShelfModel, DesktopModel } from 'components/models';
-import { getFriendList } from '../apis/api/PlayerRoom/friendList';
 import Loading from './Loading';
-import { isAllDone } from '../apis/api/PlayerRoom/ending';
 import EnterRoomDialog from 'components/ui/EnterRoomDialog';
+import { useGetFriendList } from 'hooks/useFriend';
 
 export default function PlayerRoom() {
   const light1 = useRef()
@@ -26,21 +25,21 @@ export default function PlayerRoom() {
   const [target, setTarget] = useState({ x: 0, y: 5, z: 0 });
   const [hovered, setHovered] = useState(false)
 
-  const [requestCount, setRequestCount] = useState(0)
   const [showEndingBox, setShowEndingBox] = useState(false)
+  const {data: requestCount} = useGetFriendList()
 
   const setCamera = () => {
     setPosition({ x: 12, y: 8, z: 0 })
     setTarget({ x: 0, y: 5, z: 0 })
     setCurIdx(0)
 
-    isAllDone().then((res) => {
-      if(res) {
-        setShowEndingBox(res.data)
-      }
-    }).catch((error) => {
-      console.log(error)
-    })
+    // isAllDone().then((res) => {
+    //   if(res) {
+    //     setShowEndingBox(res.data)
+    //   }
+    // }).catch((error) => {
+    //   console.log(error)
+    // })
   }
   
   // 오브젝트 클릭시 카메라 pos, target 설정
@@ -85,32 +84,11 @@ export default function PlayerRoom() {
       }, 2500)
       return () => clearTimeout(delayFunc)
     }
-    
   },[curIdx])
 
   useEffect(() => {
     document.body.style.cursor = hovered ? 'pointer' : 'default'
   },[hovered])
-
-  const getRequestCount = () => {
-    getFriendList().then((res) => {
-      setRequestCount(res.data.friendRequestResponseList.length)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  }
-
-  useEffect(() => {
-    getRequestCount()
-
-    const intervalId = setInterval(getRequestCount, 5000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  },[])
-
 
   return (
     <>
@@ -150,7 +128,7 @@ export default function PlayerRoom() {
       {/* 친구 목록 */}
       { progress === 100 &&
         <div onClick={() => {handleClick(10); setFriendListModal(true)}}>
-          <ModalButton requestCount={requestCount} />
+          <ModalButton requestCount={requestCount && requestCount.friendRequestResponseList.length} />
         </div>
       }
       { showEndingBox && <EnterRoomDialog stageNum={5} setShowEndingBox={setShowEndingBox}/>}

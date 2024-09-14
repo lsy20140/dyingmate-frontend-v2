@@ -8,6 +8,7 @@ import Phone from './Phone'
 import Diary from './Diary'
 import Board from './Board';
 import Shelf from './Shelf';
+import Desktop from './Desktop';
 
 export default function ModalOverlay({curIdx, setCamera}) {
   const {setFocus} = usePlay()

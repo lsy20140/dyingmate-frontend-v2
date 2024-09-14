@@ -51,7 +51,7 @@ export default function SettingModal({showSetup, setShowSetup}) {
                   onChange={(e) => setInput(e.target.value)} 
                   value={input ?? ""} />
               </NameWrapper>
-              <SaveButton variant={input !== data.name ? 'secondary' : 'empty'} disabled={input === data.name} onClick={handleEditUsername}>저장하기</SaveButton>
+              <SaveButton variant={data && (input !== data.name) ? 'secondary' : 'empty'} disabled={input === data.name} onClick={handleEditUsername}>저장하기</SaveButton>
               <ButtonWrapper>
                 <p onClick={handleLogout}>로그아웃</p>
                 <p>회원탈퇴</p>
